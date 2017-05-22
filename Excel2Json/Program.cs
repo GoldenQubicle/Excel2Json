@@ -13,18 +13,33 @@ namespace Excel2Json
         
         static void Main(string[] args)
         {
-            String Filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ makkelijk LANDBOUW.xlsx";
-            Dictionary<string, List<string>> content = new Dictionary<string, List<string>>();
 
-            Import import = new Import();
-            Export export = new Export();
+            
+            RegexFilter parse = new RegexFilter();
+            parse.LoadJson();
+            parse.Filter();
 
-            content.Add("letters", import.LetterArray(Filename));
-            content.Add("words", import.WordArray(Filename));
+            //// stuffie below needed for raw import and/or later parsing by regex filter
+            //// currently all disabled since working with single json
 
-            export.Save(content);
+            //String Filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ makkelijk LANDBOUW.xlsx";
+            //Dictionary<string, List<string>> content = new Dictionary<string, List<string>>();
+            //List<string> contentRaw;
+            //Import import = new Import();
+            //Export export = new Export();
 
-            //Console.Read();
+
+            //// read entire sheet 
+            //contentRaw = import.Read(Filename);
+            //export.SaveRaw(contentRaw);
+
+
+            //// more nimble parsin, however, obsolete since regex filtering
+            //content.Add("letters", import.LetterArray(Filename));
+            //content.Add("words", import.WordArray(Filename));         
+            //export.Save(content);
+
+            Console.Read();
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Excel2Json
 
         List<string> letters = new List<string>();
         List<string> words = new List<string>();
+        List<string> contentRaw = new List<string>();
 
         public List<string> WordArray(string filename)
         {
@@ -73,40 +74,40 @@ namespace Excel2Json
         }
 
         // Excel.UsedRange to read single sheet from workbook, be wary null values. . 
-        //public List<string> Read(string filename)
-        //{
-        //    string str;
-        //    int rw = 0;
-        //    int cl = 0;
-        //    Excel.Application excel = new Excel.Application();
-        //    Excel.Workbook wb = excel.Workbooks.Open(filename);
-        //    Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[1];
+        public List<string> Read(string filename)
+        {
+            string str;
+            int rw = 0;
+            int cl = 0;
+            Excel.Application excel = new Excel.Application();
+            Excel.Workbook wb = excel.Workbooks.Open(filename);
+            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[1];
 
-        //    Excel.Range range = ws.UsedRange;
-        //    rw = range.Rows.Count;
-        //    cl = range.Columns.Count;
+            Excel.Range range = ws.UsedRange;
+            rw = range.Rows.Count;
+            cl = range.Columns.Count;
 
-        //    for (int rCnt = 1; rCnt <= rw; rCnt++)
-        //    {
-        //        for (int cCnt = 1; cCnt <= cl; cCnt++)
-        //        {
-        //            str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
-        //            if (str != null)
-        //            {
-        //                contentRaw.Add(str);
-        //            }
-        //        }
-        //    }
+            for (int rCnt = 1; rCnt <= rw; rCnt++)
+            {
+                for (int cCnt = 1; cCnt <= cl; cCnt++)
+                {
+                    str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
+                    if (str != null)
+                    {
+                        contentRaw.Add(str);
+                    }
+                }
+            }
 
-        //    foreach (string i in contentRaw)
-        //    {
-        //        Console.Write(i);
-        //    }
+            foreach (string i in contentRaw)
+            {
+                Console.Write(i);
+            }
 
-        //    wb.Close();
-        //    excel.Quit();
-        //    return contentRaw;
-        ////}
-    }    
-}
+            wb.Close();
+            excel.Quit();
+            return contentRaw;
+        }
+    }
+    }
 
