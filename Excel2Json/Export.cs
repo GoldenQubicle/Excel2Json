@@ -11,7 +11,7 @@ namespace Excel2Json
     class Export
     {
 
-        public void Save(List<string> content)
+        public void Save(Dictionary<string, List<string>> content)
         {
 
             string dataRaw = JsonConvert.SerializeObject(content);

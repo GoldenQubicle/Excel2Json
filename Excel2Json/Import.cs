@@ -10,8 +10,44 @@ namespace Excel2Json
 {
     class Import
     {
+        Excel.Application excel = new Excel.Application();
+
         List<string> contentRaw = new List<string>();
-    
+        List<string> letters = new List<string>();
+
+
+        public Dictionary<string, List<string>> LetterArray(string filename)
+        {
+            Excel.Workbook wb = excel.Workbooks.Open(filename);
+            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[1];
+
+            int startCol = 5;
+            int startRow = 3;
+            int sizeCol = 11;
+            int sizeRow = 11;
+            string letter;
+
+            for (int cols = startCol; cols <= (startCol + sizeCol); cols++)
+            {
+                for (int rows = startRow; rows <= (startRow + sizeRow); rows++)
+                {
+                    letter = (string)(ws.Cells[cols, rows] as Excel.Range).Value2;
+                    if (letter != null)
+                    {
+                        letters.Add(letter);
+                    }
+                }
+            }
+
+            Dictionary<string, List<string>> letterArray = new Dictionary<string, List<string>>
+            {
+                {"letters", letters}
+            };
+
+            return letterArray;
+        }
+
+        // used range read single sheet from workbook, be wary null values. . 
         public List<string> Read(string filename)
         {
             string str;
@@ -24,7 +60,7 @@ namespace Excel2Json
             Excel.Range range = ws.UsedRange;
             rw = range.Rows.Count;
             cl = range.Columns.Count;
-            
+
             for (int rCnt = 1; rCnt <= rw; rCnt++)
             {
                 for (int cCnt = 1; cCnt <= cl; cCnt++)
@@ -34,7 +70,6 @@ namespace Excel2Json
                     {
                         contentRaw.Add(str);
                     }
-                    //Console.Write(str);
                 }
             }
 
@@ -43,15 +78,13 @@ namespace Excel2Json
                 Console.Write(i);
             }
 
-            // Get worksheet names
-            //foreach (Excel.Worksheet sh in wb.Worksheets)
-            //    Console.WriteLine(sh.Name);
-            
             wb.Close();
             excel.Quit();
             return contentRaw;
         }
     }
+
+
 
 
 }
