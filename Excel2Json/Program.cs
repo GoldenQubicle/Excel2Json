@@ -13,8 +13,9 @@ namespace Excel2Json
         static void Main(string[] args)
         {
             Import import = new Import();
-            import.Read("C:\\Users\\Erik\\Desktop\\TESTMAAND 1, WEEK 2 14 MEI VOLLEDIG\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 2\\WOORDZOEKER\\WZ makkelijk FRUIT.xlsx");
-
+            import.Read("C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 2\\WOORDZOEKER\\WZ makkelijk FRUIT.xlsx");
+           
+           
             Console.Read();
         }
     }

@@ -12,31 +12,36 @@ namespace Excel2Json
     {
         public void Read(string filename)
         {
+            string str;
+            List<string> content = new List<string>(); 
+            int rw = 0;
+            int cl = 0;
             Excel.Application excel = new Excel.Application();
             Excel.Workbook wb = excel.Workbooks.Open(filename);
+            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[1];
 
-            // Get worksheet names
-            foreach (Excel.Worksheet sh in wb.Worksheets)
-                Console.WriteLine(sh.Name);
-
-
-
-            List<object> letters = new List<object>();
-
-            for (int cols = 3; cols < (cols + 11); cols++)
+            Excel.Range range = ws.UsedRange;
+            rw = range.Rows.Count;
+            cl = range.Columns.Count;
+            
+            for (int rCnt = 1; rCnt <= rw; rCnt++)
             {
-                for (int rows = 5; rows < (rows + 11); rows++)
+                for (int cCnt = 1; cCnt <= cl; cCnt++)
                 {
-                    letters.Add(wb.Sheets["makkelijk (makkelijk)"].Cells[cols, rows].Value2);
-                    Console.WriteLine(letters.Count);
-
+                    str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
+                    content.Add(str);
+                    Console.Write(str);
                 }
             }
-            
-            foreach (object letter in letters)
-            {
-                Console.WriteLine(letter);
-            }
+
+            //foreach (string i in content)
+            //{
+            //    Console.Write(i);
+            //}
+
+            // Get worksheet names
+            //foreach (Excel.Worksheet sh in wb.Worksheets)
+            //    Console.WriteLine(sh.Name);
 
             wb.Close();
             excel.Quit();
