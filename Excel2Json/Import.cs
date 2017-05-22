@@ -10,10 +10,11 @@ namespace Excel2Json
 {
     class Import
     {
-        public void Read(string filename)
+        List<string> contentRaw = new List<string>();
+    
+        public List<string> Read(string filename)
         {
             string str;
-            List<string> content = new List<string>(); 
             int rw = 0;
             int cl = 0;
             Excel.Application excel = new Excel.Application();
@@ -29,12 +30,15 @@ namespace Excel2Json
                 for (int cCnt = 1; cCnt <= cl; cCnt++)
                 {
                     str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
-                    content.Add(str);
+                    if (str != null)
+                    {
+                        contentRaw.Add(str);
+                    }
                     //Console.Write(str);
                 }
             }
 
-            foreach (string i in content)
+            foreach (string i in contentRaw)
             {
                 Console.Write(i);
             }
@@ -42,9 +46,10 @@ namespace Excel2Json
             // Get worksheet names
             //foreach (Excel.Worksheet sh in wb.Worksheets)
             //    Console.WriteLine(sh.Name);
-
+            
             wb.Close();
             excel.Quit();
+            return contentRaw;
         }
     }
 

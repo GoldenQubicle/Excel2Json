@@ -9,13 +9,17 @@ using Newtonsoft.Json;
 namespace Excel2Json
 {
     class Program
-    {            
+    {
+
         static void Main(string[] args)
         {
+            List<string> content;
             Import import = new Import();
-            import.Read("C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 2\\WOORDZOEKER\\WZ makkelijk FRUIT.xlsx");
-           
-           
+            Export export = new Export();
+
+            content = import.Read("C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 2\\WOORDZOEKER\\WZ makkelijk FRUIT.xlsx");
+            export.Save(content);
+
             Console.Read();
         }
     }
