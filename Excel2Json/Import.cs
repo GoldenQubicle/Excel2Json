@@ -30,14 +30,14 @@ namespace Excel2Json
                 {
                     str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
                     content.Add(str);
-                    Console.Write(str);
+                    //Console.Write(str);
                 }
             }
 
-            //foreach (string i in content)
-            //{
-            //    Console.Write(i);
-            //}
+            foreach (string i in content)
+            {
+                Console.Write(i);
+            }
 
             // Get worksheet names
             //foreach (Excel.Worksheet sh in wb.Worksheets)
