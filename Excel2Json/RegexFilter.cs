@@ -13,6 +13,7 @@ namespace Excel2Json
     {
         List<string> content = new List<string>();
         string header = "Spel";
+        string dim = "DIAGRAM";
 
 
         public void LoadJson()
@@ -32,6 +33,7 @@ namespace Excel2Json
         public void Filter()
         {
             List<int>toDelete = new List<int>();
+            Regex pattern = new Regex(@"DIAGRAM (?<cols>\d+)X(?<rows>\d+)");
 
             foreach (string i in content)
             {
@@ -39,8 +41,18 @@ namespace Excel2Json
                 {
                     int pos = content.IndexOf(i);
                     toDelete.Add(pos);
-                    Console.WriteLine("check I guess" + pos.ToString() + toDelete.Count());
+                    //Console.WriteLine("check I guess" + pos.ToString() + toDelete.Count());
                 }
+                if (Regex.IsMatch(i, dim, RegexOptions.IgnoreCase))
+                {
+                    Match match = pattern.Match(i);
+                    int cols = int.Parse(match.Groups["cols"].Value);
+                    int rows = int.Parse(match.Groups["rows"].Value);
+                 
+                    Console.WriteLine("checkiecheck" + rows + cols);
+
+                }
+
             }
         }
 
