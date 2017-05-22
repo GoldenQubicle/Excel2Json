@@ -13,13 +13,14 @@ namespace Excel2Json
         
         static void Main(string[] args)
         {
-            String Filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 2\\WOORDZOEKER\\WZ makkelijk FRUIT.xlsx";
-            Dictionary<string, List<string>> content;
+            String Filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ makkelijk LANDBOUW.xlsx";
+            Dictionary<string, List<string>> content = new Dictionary<string, List<string>>();
 
             Import import = new Import();
             Export export = new Export();
 
-            content = import.LetterArray(Filename);
+            content.Add("letters", import.LetterArray(Filename));
+            content.Add("words", import.WordArray(Filename));
 
             export.Save(content);
 
