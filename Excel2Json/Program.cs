@@ -23,7 +23,7 @@ namespace Excel2Json
 
             export.Save(content);
 
-            Console.Read();
+            //Console.Read();
         }
     }
 }
