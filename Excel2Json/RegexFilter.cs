@@ -27,7 +27,7 @@ namespace Excel2Json
         }
 
         
-        public void Filter()
+        public List<string> Filter()
         {
             List<int> ignoreIndex = new List<int>();
             List<string> scrubbed = new List<string>();
@@ -69,9 +69,11 @@ namespace Excel2Json
                 }
             }
 
-            // save scrubbed content
-            string scrubbedContent = JsonConvert.SerializeObject(content);
-            File.WriteAllText("scrubbedContent.json", scrubbedContent);
+            return content;
+
+            //// save scrubbed content, temporary
+            //string scrubbedContent = JsonConvert.SerializeObject(content);
+            //File.WriteAllText("scrubbedContent.json", scrubbedContent);
         }
     }
 }

@@ -8,7 +8,9 @@ namespace Excel2Json
 {
     class CalcWordPos
     {
+       
         /*
+         for this to work I need to have a letter & word array + col&row array in the first place
          what needs to happen here is 
          - iterate over word list
          - take first letter

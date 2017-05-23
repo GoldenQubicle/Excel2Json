@@ -10,14 +10,17 @@ namespace Excel2Json
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
 
-            
+            JSONBuilder json = new JSONBuilder();
             RegexFilter parse = new RegexFilter();
             parse.LoadJson();
-            parse.Filter();
+            json.SplitScrubbedList(parse.Filter());
+          
+
+
 
             //// stuffies below needed for raw import and/or later parsing by regex filter
             //// currently all disabled since working with single json
@@ -26,7 +29,7 @@ namespace Excel2Json
             //Dictionary<string, List<string>> content = new Dictionary<string, List<string>>();
             //List<string> contentRaw;
             //Import import = new Import();
-            //Export export = new Export();
+            Export export = new Export();
 
 
             //// read entire sheet 
@@ -37,7 +40,7 @@ namespace Excel2Json
             //// more nimble parsin, however, prolly obsolete once regex filtering is in place
             //content.Add("letters", import.LetterArray(Filename));
             //content.Add("words", import.WordArray(Filename));         
-            //export.Save(content);
+            export.Save(json.Build());
 
             Console.Read();
         }
