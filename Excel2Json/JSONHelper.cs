@@ -9,33 +9,30 @@ using System.Threading.Tasks;
 
 namespace Excel2Json
 {
-    class JSONBuilder
+    class JSONHelper
     {
-        /*
-        !!! hardcoded dimensions !!!
-        is temporary, will have to be determined on filenames, i.e. level, later on
-        and pass level along so to set the correct col & row count 
-        */
-        int col = 11;
-        int row = 11;
 
-        Dictionary<string, List<string>> content = new Dictionary<string, List<string>>();
-        List<string> cols = new List<string>();
-        List<string> rows = new List<string>();
-
-        public Dictionary<string, List<string>> Build()
+        public Dictionary<string, List<string>> getRowsColumns()
         {
+            /*
+            !!! hardcoded dimensions !!!
+            is temporary, will have to be determined on filenames, i.e. level, later on
+            and pass level along so to set the correct col & row count 
+            */
+            int col = 12;
+            int row = 12;
+
+            Dictionary<string, List<string>> rowcolumn = new Dictionary<string, List<string>>();
+            List<string> cols = new List<string>();
+            List<string> rows = new List<string>();
+
             cols.Add(col.ToString());
             rows.Add(row.ToString());
-            //content.Add("Columns", cols);
-            //content.Add("Rows", rows);
-      
-            Console.WriteLine("build json");
-            return content;
+            rowcolumn.Add("Columns", cols);
+            rowcolumn.Add("Rows", rows);
 
+            return rowcolumn;
         }
-
-       
 
         public List<string> LoadRaw()
         {

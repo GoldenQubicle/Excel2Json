@@ -8,13 +8,36 @@ namespace Excel2Json
 {
     class CalcWordPos
     {
+        int cols;
+        int rows;
         List<int> startCol = new List<int>();
         List<int> startRow = new List<int>();
         List<int> endCol = new List<int>();
         List<int> endRow = new List<int>();
 
-        public void Horizontal()
+        public void getCol(Dictionary<string, List<string>> content)
         {
+            List<string> test = content.ElementAt(0).Value;
+
+            foreach (var i in test)
+            {
+                int.TryParse(i, out cols);
+                Console.WriteLine(cols);
+
+            }
+
+        }
+
+        public void getRow(Dictionary<string, List<string>> content)
+        {
+
+
+        }
+
+        public void Horizontal(Dictionary<string, List<string>> content)
+        {
+
+
 
 
         }
@@ -30,7 +53,7 @@ namespace Excel2Json
 
          
          */
- 
+
 
     }
 }

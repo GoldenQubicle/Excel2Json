@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JSONBuilder.cs" />
+    <Compile Include="JSONHelper.cs" />
     <Compile Include="CalcWordPos.cs" />
     <Compile Include="Export.cs" />
     <Compile Include="Import.cs" />

@@ -11,7 +11,6 @@ namespace Excel2Json
 {
     class RegexFilter
     {
-        Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
 
         List<string> contentScrubbed = new List<string>();
         List<string> letters = new List<string>();
@@ -19,6 +18,7 @@ namespace Excel2Json
         List<string> solution = new List<string>();
         List<string> info = new List<string>();
 
+        string sol = "Oplossing";
         string[] toIgnore = { "Spel", "kleurcode" };
 
         public List<string> ScrubContent(List<string> contentRaw)
@@ -72,11 +72,10 @@ namespace Excel2Json
             //File.WriteAllText("scrubbedContent.json", scrubbedContent);
         }
 
-
-
         public Dictionary<string, List<string>> getSolutionInfo(List<string> contentToBeSplit)
         {
-            string sol = "Oplossing: ";
+            Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
+
             string[] separators = new string[] { " ", ":" };
 
             foreach (string i in contentToBeSplit)
@@ -85,7 +84,7 @@ namespace Excel2Json
                 {
                     foreach (string word in i.Split(separators, StringSplitOptions.RemoveEmptyEntries))
                     {
-                        solution.Add(word);                       
+                        solution.Add(word);
                     }
                     int uitleg = contentToBeSplit.IndexOf(i) + 1;
                     info.Add(contentToBeSplit[uitleg]);
@@ -99,19 +98,17 @@ namespace Excel2Json
             return contentSplit;
         }
 
-
-        public Dictionary<string, List<string>> SplitScrubbedList(List<string> contentToBeSplit)
+        public Dictionary<string, List<string>> getWordsLetters(List<string> contentToBeSplit)
         {
+            Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
+
             foreach (string i in contentToBeSplit)
             {
                 int count = 0;
-                //if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
-                //{
-                //    solution.Add(i);
-                //    int uitleg = contentToBeSplit.IndexOf(i) + 1;
-                //    info.Add(contentToBeSplit[uitleg]);
-                //    break;
-                //}
+                if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
+                {
+                    break;
+                }
                 foreach (char c in i)
                 {
                     if (!char.IsWhiteSpace(c))
@@ -130,8 +127,7 @@ namespace Excel2Json
             }
             contentSplit.Add("Letters", letters);
             contentSplit.Add("Words", words);
-            contentSplit.Add("Solution", solution);
-            contentSplit.Add("Info", info);
+   
             Console.WriteLine("split filtered list");
             return contentSplit;
         }
