@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Excel2Json
 {
-    class RegexFilter
+    class Parser
     {
-
         List<string> contentScrubbed = new List<string>();
         List<string> letters = new List<string>();
         List<string> words = new List<string>();
@@ -21,7 +20,7 @@ namespace Excel2Json
         string sol = "Oplossing";
         string[] toIgnore = { "Spel", "kleurcode" };
 
-        public List<string> ScrubContent(List<string> contentRaw)
+        public List<string> scrubContent(List<string> contentRaw)
         {
 
             List<int> ignoreIndex = new List<int>();

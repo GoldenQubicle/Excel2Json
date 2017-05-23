@@ -23,7 +23,6 @@ namespace Excel2Json
             {
                 int.TryParse(i, out cols);
                 Console.WriteLine(cols);
-
             }
 
         }

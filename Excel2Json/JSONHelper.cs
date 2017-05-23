@@ -34,7 +34,7 @@ namespace Excel2Json
             return rowcolumn;
         }
 
-        public List<string> LoadRaw()
+        public List<string> loadRaw()
         {
             List<string> contentRaw = new List<string>();
             using (StreamReader r = new StreamReader("contentRaw.json"))

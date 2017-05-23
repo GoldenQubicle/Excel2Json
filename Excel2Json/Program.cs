@@ -25,28 +25,27 @@ namespace Excel2Json
 
             //Import import = new Import();
             Export export = new Export();
-            JSONHelper json = new JSONHelper();
-            RegexFilter parse = new RegexFilter();
+            JSONHelper jsonHelper = new JSONHelper();
+            Parser parser = new Parser();
             CalcWordPos calcWordPos = new CalcWordPos();
             List<string> content = new List<string>();
             Dictionary<string, List<string>> contentFormatted = new Dictionary<string, List<string>>();
-            String Filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ middel LANDBOUW.xlsx";
+            String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ middel LANDBOUW.xlsx";
 
             // proper routine needs to go here =) 
             //content = import.Read(Filame);
             
             // temp routine to save single excel sheet as json 
-            //export.SaveRaw(import.Read(Filename));
+            //export.SaveRaw(import.Read(filename));
             
             // read said json as list
-            content = parse.ScrubContent(json.LoadRaw());
+            content = parser.scrubContent(jsonHelper.loadRaw());
 
-            json.getRowsColumns().ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
-            parse.getWordsLetters(content).ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
-            parse.getSolutionInfo(content).ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
+            jsonHelper.getRowsColumns().ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
+            parser.getWordsLetters(content).ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
+            parser.getSolutionInfo(content).ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
 
             calcWordPos.getCol(contentFormatted);
-
 
             //export.SaveIntermediate(contentFormatted);
             Console.Read();
