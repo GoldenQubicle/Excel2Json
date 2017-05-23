@@ -99,13 +99,14 @@ namespace Excel2Json
                 }
             }
 
-            foreach (string i in contentRaw)
-            {
-                Console.Write(i);
-            }
+            //foreach (string i in contentRaw)
+            //{
+            //    Console.Write(i);
+            //}
 
             wb.Close();
             excel.Quit();
+            Console.WriteLine("read excel sheet");
             return contentRaw;
         }
     }

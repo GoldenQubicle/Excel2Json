@@ -38,7 +38,7 @@ namespace Excel2Json
             content.Add("Words", words);
             content.Add("Solution", solution);
             content.Add("Info", info);
-
+            Console.WriteLine("build json");
             return content;
 
         }
@@ -71,7 +71,7 @@ namespace Excel2Json
                     words.Add(i);
                 }
             }
-
+            Console.WriteLine("split filtered list");
         }
     }
 }

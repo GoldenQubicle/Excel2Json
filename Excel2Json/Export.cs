@@ -23,7 +23,7 @@ namespace Excel2Json
 
             string data = JsonConvert.SerializeObject(content);
             File.WriteAllText("data.json", data);
-            Console.WriteLine("saved file, closing now. Bye!");
+            Console.WriteLine("succesfully saved file!");
         }
     }
 }

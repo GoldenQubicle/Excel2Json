@@ -11,7 +11,7 @@ namespace Excel2Json
 {
     class RegexFilter
     {
-        List<string> contentRaw = new List<string>();
+        //List<string> contentRaw = new List<string>();
         List<string> content = new List<string>();
         string[] toIgnore = { "Spel", "kleurcode" };
 
@@ -22,12 +22,12 @@ namespace Excel2Json
             {
                 string json = r.ReadToEnd();
                 List<string> items = JsonConvert.DeserializeObject<List<string>>(json);
-                contentRaw = items;
+                //contentRaw = items;
             }
         }
 
         
-        public List<string> Filter()
+        public List<string> Filter(List<string> contentRaw)
         {
             List<int> ignoreIndex = new List<int>();
             List<string> scrubbed = new List<string>();
@@ -69,6 +69,7 @@ namespace Excel2Json
                 }
             }
 
+            Console.WriteLine("regex filtering done");
             return content;
 
             //// save scrubbed content, temporary
