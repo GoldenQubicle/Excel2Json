@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,58 +22,34 @@ namespace Excel2Json
         Dictionary<string, List<string>> content = new Dictionary<string, List<string>>();
         List<string> cols = new List<string>();
         List<string> rows = new List<string>();
-        List<string> letters = new List<string>();
-        List<string> words = new List<string>();
-        List<string> solution = new List<string>();
-        List<string> info = new List<string>();
-
-
-        string sol = "Oplossing";
 
         public Dictionary<string, List<string>> Build()
         {
             cols.Add(col.ToString());
             rows.Add(row.ToString());
-            content.Add("Columns", cols);
-            content.Add("Rows", rows);
-            content.Add("Letters", letters);
-            content.Add("Words", words);
-            content.Add("Solution", solution);
-            content.Add("Info", info);
+            //content.Add("Columns", cols);
+            //content.Add("Rows", rows);
+      
             Console.WriteLine("build json");
             return content;
 
         }
 
-        public void SplitScrubbedList(List<string> scrubbedContent)
+       
+
+        public List<string> LoadRaw()
         {
-            foreach (string i in scrubbedContent)
+            List<string> contentRaw = new List<string>();
+            using (StreamReader r = new StreamReader("contentRaw.json"))
             {
-                int count = 0;
-                if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
-                {
-                    solution.Add(i);
-                    int uitleg = scrubbedContent.IndexOf(i) + 1;
-                    info.Add(scrubbedContent[uitleg]);
-                    break;
-                }
-                foreach (char c in i)
-                {
-                    if (!char.IsWhiteSpace(c))
-                    {
-                        count++;
-                    }
-                }
-                if (count == 1)
-                {
-                    letters.Add(i);
-                }
-                else
-                {
-                    words.Add(i);
-                }
+                string json = r.ReadToEnd();
+                List<string> items = JsonConvert.DeserializeObject<List<string>>(json);
+                contentRaw = items;
             }
-            Console.WriteLine("split filtered list");
+            Console.WriteLine("read in contentRaw.json");
+            return contentRaw;
         }
     }
+
+
 }

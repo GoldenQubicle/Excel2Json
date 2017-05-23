@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace Excel2Json
 {
@@ -109,6 +110,8 @@ namespace Excel2Json
             Console.WriteLine("read excel sheet");
             return contentRaw;
         }
+
+        
     }
     }
 
