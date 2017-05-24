@@ -51,7 +51,9 @@ namespace Excel2Json
 
             calcWordPos.getCol(contentFormattedStrings);
             calcWordPos.getRow(contentFormattedStrings);
-            calcWordPos.Horizontal(contentFormattedStrings);
+            //calcWordPos.Horizontal(contentFormattedStrings);
+            calcWordPos.FindFirstLetter(contentFormattedStrings);
+
 
 
             //export.SaveIntermediate(contentFormattedStrings);

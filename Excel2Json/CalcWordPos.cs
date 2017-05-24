@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Excel2Json
@@ -17,33 +18,97 @@ namespace Excel2Json
 
 
 
+        public void FindFirstLetter(Dictionary<string, List<string>> content)
+        {
+            List<string> words = content["Words"];
+            List<string> letters = content["Letters"];
+
+            //foreach (string word in words)
+            string word = "kippen";
+            {
+                int index = 0;
+                string firstLetter = word[0].ToString();               
+                while ((index = letters.IndexOf(firstLetter, index)) != -1)
+                {
+                    if(((index % cols) + word.Count()) <= cols){
+                        string letterWord = "";
+
+                        for (int i = index; i < (index + word.Count()); i++)
+                        {
+                            letterWord += letters[i];
+                        }
+                        Console.WriteLine(letterWord);
+
+                    }
+
+
+                    //Console.WriteLine(index);
+
+                    // Increment the index.
+                    index++;
+                }
+
+            }
+        }
+
+
         public void Horizontal(Dictionary<string, List<string>> content)
         {
             // should happen outside here - as lists are needed for each direction. . =) 
             List<string> words = content["Words"];
             List<string> letters = content["Letters"];
 
-
             //foreach (string word in words)
+            int index;
             string word = "kippen";
+            string letter = word[0].ToString();
+            string letterWord = "";
+
+            // check for first letter of word, and if the word will fit in that position
+            // if yes, construct string from letter array and see of that matches the word
+
+            foreach (string l in letters)
             {
-                foreach (char c in word)
+                if (Regex.IsMatch(l, letter) && ((letters.IndexOf(l) % cols) + word.Count()) <= cols)
                 {
-                    string letter = c.ToString();
-                    if (letters.Contains(letter))
+                    index = letters.IndexOf(l);
+
+                    for (int i = index; i < (index + word.Count()); i++)
                     {
-                        int index = letters.IndexOf(letter);
-                        int remain = index % cols;
+                        letterWord += letters[i];
+                    }
 
-                        int checkLength = index + word.Count();
-                        Console.WriteLine(remain);
-                        break;
-
+                    if (!Regex.IsMatch(word, letterWord))
+                    {
+                        Console.WriteLine("check pls" + letterWord);
                     }
                 }
+
             }
 
         }
+        //    if (letters.Contains(letter) && ((letters.IndexOf(letter) % cols) + word.Count()) <= cols)
+        //    {
+        //        index = letters.IndexOf(letter);
+
+        //        for (int i = index; i < (index + word.Count()); i++)
+        //        {
+        //            letterWord += letters[i];
+        //        }
+
+        //        if (!Regex.IsMatch(word, letterWord))
+        //        {
+        //            Console.WriteLine("check pls" + letterWord);
+        //        }
+        //    }
+        //}
+
+
+
+
+        //Console.WriteLine("check" + letters.IndexOf(letter) % cols + letters.IndexOf(letter) / rows);
+
+
         /*
          for this to work I need to have a letter & word array + col&row array in the first place
          what needs to happen here is 
@@ -54,7 +119,7 @@ namespace Excel2Json
          - if yes, regex match?
             - if yes, write out letterPos = startCol, startRow & letterPos + wordLengh (AND DIRECTION!) = endCol, endRow
 
-         
+
          */
 
         public void getCol(Dictionary<string, List<string>> content)
