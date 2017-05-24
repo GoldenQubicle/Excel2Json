@@ -12,7 +12,7 @@ namespace Excel2Json
     class JSONHelper
     {
 
-        public Dictionary<string, List<string>> getRowsColumns()
+        public Dictionary<string, int> getRowsColumns()
         {
             /*
             !!! hardcoded dimensions !!!
@@ -22,14 +22,14 @@ namespace Excel2Json
             int col = 12;
             int row = 12;
 
-            Dictionary<string, List<string>> rowcolumn = new Dictionary<string, List<string>>();
+            Dictionary<string, int> rowcolumn = new Dictionary<string, int>();
             List<string> cols = new List<string>();
             List<string> rows = new List<string>();
 
             cols.Add(col.ToString());
             rows.Add(row.ToString());
-            rowcolumn.Add("Columns", cols);
-            rowcolumn.Add("Rows", rows);
+            rowcolumn.Add("columns", col);
+            rowcolumn.Add("rows", row);
 
             return rowcolumn;
         }

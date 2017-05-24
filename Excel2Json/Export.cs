@@ -12,6 +12,25 @@ namespace Excel2Json
     {
 
 
+        public void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow)
+        {
+            Dictionary<string, object> contentFinal = new Dictionary<string, object>();
+            contentFinal.Add("columns", colrow["columns"]);
+            contentFinal.Add("rows", colrow["rows"]);
+            contentFinal.Add("words", contentString["words"].ToList());
+            contentFinal.Add("letters", contentString["letters"].ToList());
+            contentFinal.Add("solution", contentString["solution"].ToList());
+            contentFinal.Add("info", contentString["info"].ToList());
+            contentFinal.Add("startCol", contentInt["startCol"].ToList());
+            contentFinal.Add("startRow", contentInt["startRow"].ToList());
+            contentFinal.Add("endCol", contentInt["endCol"].ToList());
+            contentFinal.Add("endRow", contentInt["endRow"].ToList());
+
+            string dataFinal = JsonConvert.SerializeObject(contentFinal);
+            File.WriteAllText("contentFinal.json", dataFinal);
+            Console.WriteLine("saved final file, closing now. Bye!");
+        }
+
         public void SaveIntermediate(Dictionary<string, List<string>> contentStrings)
         {
             string dataStrings = JsonConvert.SerializeObject(contentStrings);

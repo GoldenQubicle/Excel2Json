@@ -91,8 +91,8 @@ namespace Excel2Json
 
             }
             solution.RemoveAt(0);
-            contentSplit.Add("Solution", solution);
-            contentSplit.Add("Info", info);
+            contentSplit.Add("solution", solution);
+            contentSplit.Add("info", info);
 
             return contentSplit;
         }
@@ -124,8 +124,8 @@ namespace Excel2Json
                     words.Add(i);
                 }
             }
-            contentSplit.Add("Letters", letters);
-            contentSplit.Add("Words", words);
+            contentSplit.Add("letters", letters);
+            contentSplit.Add("words", words);
    
             Console.WriteLine("split filtered list");
             return contentSplit;

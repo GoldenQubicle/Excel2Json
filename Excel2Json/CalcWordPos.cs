@@ -11,20 +11,22 @@ namespace Excel2Json
     {
         int cols;
         int rows;
+
         List<int> startCol = new List<int>();
         List<int> startRow = new List<int>();
         List<int> endCol = new List<int>();
         List<int> endRow = new List<int>();
 
-
-
-        public void FindFirstLetter(Dictionary<string, List<string>> content)
+        public Dictionary<string, List<int>> FindFirstLetter(Dictionary<string, List<string>> content)
         {
-            List<string> words = content["Words"];
-            List<string> letters = content["Letters"];
+            // okidoki so accidentally made horizontal search here as well
+            // obv needs to be factored out ~ for now check if json can be loaded client side
+            Dictionary<string, List<int>> ColRow = new Dictionary<string, List<int>>();
+
+            List<string> words = content["words"];
+            List<string> letters = content["letters"];
 
             foreach (string word in words)
-                //string word = "kippen";
             {
                 int index = 0;
                 string firstLetter = word[0].ToString();               
@@ -37,23 +39,25 @@ namespace Excel2Json
                         {
                             letterWord += letters[i];
                         }
-                       
-                        if(letterWord == word)
+
+                        if (letterWord == word)
                         {
-                            int startCol = index % cols;
-                            int startRow = index / rows;
-                            Console.WriteLine("succes!!! woord is " + letterWord + " start kolum " + startCol + " start rij " + startRow);
+                            startCol.Add(index % cols);
+                            startRow.Add(index / rows);
+                            endCol.Add((index % cols) + word.Count());
+                            endRow.Add(index / rows);
+                            //Console.WriteLine("woord is " + letterWord + " start column " + startCol + " start rij " + startRow + " eind column " + endCol + " eind rij " + endRow);
                         }
                     }
-
-
-                    //Console.WriteLine(index);
-
-                    // Increment the index.
                     index++;
                 }
 
             }
+            ColRow.Add("startCol", startCol);
+            ColRow.Add("startRow", startRow);
+            ColRow.Add("endCol", endCol);
+            ColRow.Add("endRow", endRow);
+            return ColRow;
         }
 
 
@@ -93,6 +97,7 @@ namespace Excel2Json
             }
 
         }
+
         //    if (letters.Contains(letter) && ((letters.IndexOf(letter) % cols) + word.Count()) <= cols)
         //    {
         //        index = letters.IndexOf(letter);
@@ -114,30 +119,11 @@ namespace Excel2Json
 
         //Console.WriteLine("check" + letters.IndexOf(letter) % cols + letters.IndexOf(letter) / rows);
 
-
-        /*
-         for this to work I need to have a letter & word array + col&row array in the first place
-         what needs to happen here is 
-         - iterate over word list
-         - take first letter
-         - look up first letter in letter list
-         - check letterPos + wordLength < dimension 
-         - if yes, regex match?
-            - if yes, write out letterPos = startCol, startRow & letterPos + wordLengh (AND DIRECTION!) = endCol, endRow
-
-
-         */
-
-        public void getCol(Dictionary<string, List<string>> content)
+             
+        public void getColRow(Dictionary<string, int> colrow)
         {
-            List<string> col = content.ElementAt(0).Value;
-
-            foreach (var i in col)
-            {
-                int.TryParse(i, out cols);
-                //Console.WriteLine("cols = " + cols);
-            }
-
+             cols = colrow["columns"];
+             rows = colrow["rows"];
         }
 
         public void getRow(Dictionary<string, List<string>> content)

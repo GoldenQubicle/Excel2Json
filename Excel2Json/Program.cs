@@ -32,7 +32,8 @@ namespace Excel2Json
             CalcWordPos calcWordPos = new CalcWordPos();
             List<string> content = new List<string>();
             Dictionary<string, List<string>> contentFormattedStrings = new Dictionary<string, List<string>>();
-            Dictionary<string, int> contentFormattedInts = new Dictionary<string,int>();
+            Dictionary<string, List<int>> contentFormattedInts = new Dictionary<string, List<int>>();
+            Dictionary<string, int> contentColRow = new Dictionary<string, int>();
 
             String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ middel LANDBOUW.xlsx";
 
@@ -45,16 +46,16 @@ namespace Excel2Json
             // read said json as list
             content = parser.scrubContent(jsonHelper.loadRaw());
 
-            jsonHelper.getRowsColumns().ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+            jsonHelper.getRowsColumns().ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
             parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
             parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
 
-            calcWordPos.getCol(contentFormattedStrings);
-            calcWordPos.getRow(contentFormattedStrings);
+            calcWordPos.getColRow(contentColRow);
+            //calcWordPos.getRow(contentColRow);
             //calcWordPos.Horizontal(contentFormattedStrings);
-            calcWordPos.FindFirstLetter(contentFormattedStrings);
+            calcWordPos.FindFirstLetter(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
-
+            export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow);
 
             //export.SaveIntermediate(contentFormattedStrings);
             Console.Read();
