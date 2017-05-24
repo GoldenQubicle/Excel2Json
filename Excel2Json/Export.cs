@@ -12,10 +12,12 @@ namespace Excel2Json
     {
 
 
-        public void SaveIntermediate(Dictionary<string, List<string>> contentTemp)
+        public void SaveIntermediate(Dictionary<string, List<string>> contentStrings)
         {
-            string dataTemp = JsonConvert.SerializeObject(contentTemp);
-            File.WriteAllText("contentTemp.json", dataTemp);
+            string dataStrings = JsonConvert.SerializeObject(contentStrings);
+            //string dataInts = JsonConvert.SerializeObject(contentInts);
+            //string data =  String.Join("",dataInts, dataStrings);
+            File.WriteAllText("contentTemp.json", dataStrings);
             Console.WriteLine("saved temp file, closing now. Bye!");
 
         }

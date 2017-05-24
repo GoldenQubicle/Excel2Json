@@ -15,29 +15,33 @@ namespace Excel2Json
         List<int> endCol = new List<int>();
         List<int> endRow = new List<int>();
 
-        public void getCol(Dictionary<string, List<string>> content)
-        {
-            List<string> test = content.ElementAt(0).Value;
 
-            foreach (var i in test)
-            {
-                int.TryParse(i, out cols);
-                Console.WriteLine(cols);
-            }
-
-        }
-
-        public void getRow(Dictionary<string, List<string>> content)
-        {
-
-
-        }
 
         public void Horizontal(Dictionary<string, List<string>> content)
         {
+            // should happen outside here - as lists are needed for each direction. . =) 
+            List<string> words = content["Words"];
+            List<string> letters = content["Letters"];
 
 
+            //foreach (string word in words)
+            string word = "kippen";
+            {
+                foreach (char c in word)
+                {
+                    string letter = c.ToString();
+                    if (letters.Contains(letter))
+                    {
+                        int index = letters.IndexOf(letter);
+                        int remain = index % cols;
 
+                        int checkLength = index + word.Count();
+                        Console.WriteLine(remain);
+                        break;
+
+                    }
+                }
+            }
 
         }
         /*
@@ -53,6 +57,28 @@ namespace Excel2Json
          
          */
 
+        public void getCol(Dictionary<string, List<string>> content)
+        {
+            List<string> col = content.ElementAt(0).Value;
 
+            foreach (var i in col)
+            {
+                int.TryParse(i, out cols);
+                //Console.WriteLine("cols = " + cols);
+            }
+
+        }
+
+        public void getRow(Dictionary<string, List<string>> content)
+        {
+            List<string> row = content.ElementAt(1).Value;
+
+            foreach (var i in row)
+            {
+                int.TryParse(i, out rows);
+                //Console.WriteLine("rows = " + rows);
+            }
+
+        }
     }
 }

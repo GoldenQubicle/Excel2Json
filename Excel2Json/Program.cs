@@ -16,11 +16,13 @@ namespace Excel2Json
 
             /*
             TODO
-            calculate word positions
+            calculate word start/end positions, write into json
+            check js script clientside and adjust if necesarry
             determine level on filename
-            scrape folder for filenames  
+            determine sublevel on sheetname
+            scrape folders for filenames  
             also, prolly want to properly close COM object when scraping entire folders . . =) 
-            ALSO CHECMK FOR THE DARN FRIGGIN IJ!
+            
             */
 
             //Import import = new Import();
@@ -29,7 +31,9 @@ namespace Excel2Json
             Parser parser = new Parser();
             CalcWordPos calcWordPos = new CalcWordPos();
             List<string> content = new List<string>();
-            Dictionary<string, List<string>> contentFormatted = new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> contentFormattedStrings = new Dictionary<string, List<string>>();
+            Dictionary<string, int> contentFormattedInts = new Dictionary<string,int>();
+
             String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ middel LANDBOUW.xlsx";
 
             // proper routine needs to go here =) 
@@ -41,13 +45,16 @@ namespace Excel2Json
             // read said json as list
             content = parser.scrubContent(jsonHelper.loadRaw());
 
-            jsonHelper.getRowsColumns().ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
-            parser.getWordsLetters(content).ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
-            parser.getSolutionInfo(content).ToList().ForEach(x => contentFormatted.Add(x.Key, x.Value));
+            jsonHelper.getRowsColumns().ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+            parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+            parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
 
-            calcWordPos.getCol(contentFormatted);
+            calcWordPos.getCol(contentFormattedStrings);
+            calcWordPos.getRow(contentFormattedStrings);
+            calcWordPos.Horizontal(contentFormattedStrings);
 
-            //export.SaveIntermediate(contentFormatted);
+
+            //export.SaveIntermediate(contentFormattedStrings);
             Console.Read();
         }
     }
