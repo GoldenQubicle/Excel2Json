@@ -23,8 +23,8 @@ namespace Excel2Json
             List<string> words = content["Words"];
             List<string> letters = content["Letters"];
 
-            //foreach (string word in words)
-            string word = "kippen";
+            foreach (string word in words)
+                //string word = "kippen";
             {
                 int index = 0;
                 string firstLetter = word[0].ToString();               
@@ -37,8 +37,13 @@ namespace Excel2Json
                         {
                             letterWord += letters[i];
                         }
-                        Console.WriteLine(letterWord);
-
+                       
+                        if(letterWord == word)
+                        {
+                            int startCol = index % cols;
+                            int startRow = index / rows;
+                            Console.WriteLine("succes!!! woord is " + letterWord + " start kolum " + startCol + " start rij " + startRow);
+                        }
                     }
 
 
@@ -80,7 +85,8 @@ namespace Excel2Json
 
                     if (!Regex.IsMatch(word, letterWord))
                     {
-                        Console.WriteLine("check pls" + letterWord);
+                        
+                        Console.WriteLine("check pls" + letterWord + startCol + startRow);
                     }
                 }
 
