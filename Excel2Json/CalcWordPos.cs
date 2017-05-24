@@ -46,96 +46,25 @@ namespace Excel2Json
                             startRow.Add(index / rows);
                             endCol.Add((index % cols) + word.Count());
                             endRow.Add(index / rows);
-                            //Console.WriteLine("woord is " + letterWord + " start column " + startCol + " start rij " + startRow + " eind column " + endCol + " eind rij " + endRow);
                         }
                     }
                     index++;
                 }
-
             }
+
             ColRow.Add("startCol", startCol);
             ColRow.Add("startRow", startRow);
             ColRow.Add("endCol", endCol);
             ColRow.Add("endRow", endRow);
+
             return ColRow;
         }
-
-
-        public void Horizontal(Dictionary<string, List<string>> content)
-        {
-            // should happen outside here - as lists are needed for each direction. . =) 
-            List<string> words = content["Words"];
-            List<string> letters = content["Letters"];
-
-            //foreach (string word in words)
-            int index;
-            string word = "kippen";
-            string letter = word[0].ToString();
-            string letterWord = "";
-
-            // check for first letter of word, and if the word will fit in that position
-            // if yes, construct string from letter array and see of that matches the word
-
-            foreach (string l in letters)
-            {
-                if (Regex.IsMatch(l, letter) && ((letters.IndexOf(l) % cols) + word.Count()) <= cols)
-                {
-                    index = letters.IndexOf(l);
-
-                    for (int i = index; i < (index + word.Count()); i++)
-                    {
-                        letterWord += letters[i];
-                    }
-
-                    if (!Regex.IsMatch(word, letterWord))
-                    {
-                        
-                        Console.WriteLine("check pls" + letterWord + startCol + startRow);
-                    }
-                }
-
-            }
-
-        }
-
-        //    if (letters.Contains(letter) && ((letters.IndexOf(letter) % cols) + word.Count()) <= cols)
-        //    {
-        //        index = letters.IndexOf(letter);
-
-        //        for (int i = index; i < (index + word.Count()); i++)
-        //        {
-        //            letterWord += letters[i];
-        //        }
-
-        //        if (!Regex.IsMatch(word, letterWord))
-        //        {
-        //            Console.WriteLine("check pls" + letterWord);
-        //        }
-        //    }
-        //}
-
-
-
-
-        //Console.WriteLine("check" + letters.IndexOf(letter) % cols + letters.IndexOf(letter) / rows);
-
-             
+                                   
         public void getColRow(Dictionary<string, int> colrow)
         {
              cols = colrow["columns"];
              rows = colrow["rows"];
         }
 
-        public void getRow(Dictionary<string, List<string>> content)
-        {
-            List<string> row = content.ElementAt(1).Value;
-
-            foreach (var i in row)
-            {
-                int.TryParse(i, out rows);
-                //Console.WriteLine("rows = " + rows);
-            }
-
-        }
     }
 }

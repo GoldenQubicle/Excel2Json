@@ -16,8 +16,14 @@ namespace Excel2Json
 
             /*
             TODO
-            calculate word start/end positions, write into json
-            check js script clientside and adjust if necesarry
+            factor out retrieve index of first letter words since thats needed to:
+            work out the logic for search vertical and diagonal
+            DONT FORGET: also need to get the positions for words in solution 
+            and speaking off: 
+            adjust the js in project to accomodate solution split into words (.e.g join together on client and pass into existing linesolution var)
+            
+            when above is done then:
+
             determine level on filename
             determine sublevel on sheetname
             scrape folders for filenames  
@@ -51,8 +57,7 @@ namespace Excel2Json
             parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
 
             calcWordPos.getColRow(contentColRow);
-            //calcWordPos.getRow(contentColRow);
-            //calcWordPos.Horizontal(contentFormattedStrings);
+
             calcWordPos.FindFirstLetter(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
             export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow);
