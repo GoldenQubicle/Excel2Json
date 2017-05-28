@@ -11,7 +11,6 @@ namespace Excel2Json
 {
     class JSONHelper
     {
-
         public Dictionary<string, int> getRowsColumns()
         {
             /*

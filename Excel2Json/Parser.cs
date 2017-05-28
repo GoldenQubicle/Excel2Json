@@ -11,18 +11,12 @@ namespace Excel2Json
 {
     class Parser
     {
-        List<string> contentScrubbed = new List<string>();
-        List<string> letters = new List<string>();
-        List<string> words = new List<string>();
-        List<string> solution = new List<string>();
-        List<string> info = new List<string>();
-
         string sol = "Oplossing";
         string[] toIgnore = { "Spel", "kleurcode" };
 
         public List<string> scrubContent(List<string> contentRaw)
         {
-
+            List<string> contentScrubbed = new List<string>();
             List<int> ignoreIndex = new List<int>();
             List<string> scrubbed = new List<string>();
 
@@ -74,6 +68,8 @@ namespace Excel2Json
         public Dictionary<string, List<string>> getSolutionInfo(List<string> contentToBeSplit)
         {
             Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
+            List<string> solution = new List<string>();
+            List<string> info = new List<string>();
 
             string[] separators = new string[] { " ", ":" };
 
@@ -100,6 +96,8 @@ namespace Excel2Json
         public Dictionary<string, List<string>> getWordsLetters(List<string> contentToBeSplit)
         {
             Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
+            List<string> letters = new List<string>();
+            List<string> words = new List<string>();
 
             foreach (string i in contentToBeSplit)
             {

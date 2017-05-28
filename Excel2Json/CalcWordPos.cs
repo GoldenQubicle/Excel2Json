@@ -12,16 +12,17 @@ namespace Excel2Json
         int cols;
         int rows;
 
-        List<int> startCol = new List<int>();
-        List<int> startRow = new List<int>();
-        List<int> endCol = new List<int>();
-        List<int> endRow = new List<int>();
-
         public Dictionary<string, List<int>> FindFirstLetter(Dictionary<string, List<string>> content)
         {
             // okidoki so accidentally made horizontal search here as well
             // obv needs to be factored out ~ for now check if json can be loaded client side
+            // also somehow this returns one more than the # of words in words. . weird 
+            // doesnt really matter since it needs refactoring anyway
             Dictionary<string, List<int>> ColRow = new Dictionary<string, List<int>>();
+            List<int> startCol = new List<int>();
+            List<int> startRow = new List<int>();
+            List<int> endCol = new List<int>();
+            List<int> endRow = new List<int>();
 
             List<string> words = content["words"];
             List<string> letters = content["letters"];
@@ -29,10 +30,10 @@ namespace Excel2Json
             foreach (string word in words)
             {
                 int index = 0;
-                string firstLetter = word[0].ToString();               
+                string firstLetter = word[0].ToString();
                 while ((index = letters.IndexOf(firstLetter, index)) != -1)
                 {
-                    if(((index % cols) + word.Count()) <= cols){
+                    if (((index % cols) + word.Count()) <= cols) {
                         string letterWord = "";
 
                         for (int i = index; i < (index + word.Count()); i++)
@@ -59,12 +60,48 @@ namespace Excel2Json
 
             return ColRow;
         }
-                                   
-        public void getColRow(Dictionary<string, int> colrow)
+
+        public Dictionary<string, int> getColRow(string lvl)
         {
-             cols = colrow["columns"];
-             rows = colrow["rows"];
+            if (lvl == "00" || lvl == "01" || lvl == "02")
+            {
+                cols = 11;
+                rows = 11;
+            }
+            
+            if (lvl == "10" || lvl == "11" || lvl == "12")
+            {
+                cols = 12;
+                rows = 12;
+            }
+
+            if (lvl == "20" || lvl == "21" || lvl == "22")
+            {
+                cols = 12;
+                rows = 13;
+            }
+
+            if (lvl == "30" || lvl == "31" || lvl == "32")
+            {
+                cols = 13;
+                rows = 13;
+            }
+
+
+            Dictionary<string, int> rowcolumn = new Dictionary<string, int>();
+       
+            rowcolumn.Add("columns", cols);
+            rowcolumn.Add("rows", rows);
+
+            return rowcolumn;
         }
+        
+        // obsolete, was used in cojunction with json helper
+        //public void getColRow(Dictionary<string, int> colrow)
+        //{
+        //     cols = colrow["columns"];
+        //     rows = colrow["rows"];
+        //}
 
     }
 }

@@ -11,7 +11,7 @@ namespace Excel2Json
     class Export
     {
         
-        public void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow)
+        public void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow, string key)
         {
             Dictionary<string, object> contentFinal = new Dictionary<string, object>();
             contentFinal.Add("columns", colrow["columns"]);
@@ -26,7 +26,7 @@ namespace Excel2Json
             contentFinal.Add("endRow", contentInt["endRow"].ToList());
 
             string dataFinal = JsonConvert.SerializeObject(contentFinal);
-            File.WriteAllText("contentFinal.json", dataFinal);
+            File.WriteAllText("contentFinal" + key + ".json", dataFinal);
             Console.WriteLine("saved final file, closing now. Bye!");
         }
 
