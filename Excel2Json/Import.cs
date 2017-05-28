@@ -13,68 +13,10 @@ namespace Excel2Json
     {
         Excel.Application excel = new Excel.Application();
 
-        List<string> letters = new List<string>();
-        List<string> words = new List<string>();
-        List<string> contentRaw = new List<string>();
+       List<string> contentRaw = new List<string>();
 
-        public List<string> WordArray(string filename)
-        {
-            Excel.Workbook wb = excel.Workbooks.Open(filename);
-            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[1];
-
-            int startCol = 16;
-            int startRow = 5;
-            int sizeCol = 2;
-            int sizeRow = 7;
-            string word;
-
-
-            for (int cols = startCol; cols <= (startCol + sizeCol); cols++)
-            {
-                for (int rows = startRow; rows <= (startRow + sizeRow); rows++)
-                {
-                    word = (string)(ws.Cells[rows, cols] as Excel.Range).Value2;
-                    if (word != null)
-                    {
-                        words.Add(word);
-                    }
-                }
-            }
-            return words;
-        }
-
-        public List<string> LetterArray(string filename)
-        {
-            Excel.Workbook wb = excel.Workbooks.Open(filename);
-            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[1];
-
-            int startCol = 3;
-            int startRow = 5;
-            int sizeCol = 11;
-            int sizeRow = 11;
-            string letter;
-
-            for (int cols = startCol; cols <= (startCol + sizeCol); cols++)
-            {
-                for (int rows = startRow; rows <= (startRow + sizeRow); rows++)
-                {
-                    letter = (string)(ws.Cells[rows, cols] as Excel.Range).Value2;
-                    if (letter != null)
-                    {
-                        letters.Add(letter);
-                    }
-                }
-            }
-
-            //Dictionary<string, List<string>> letterArray = new Dictionary<string, List<string>>
-            //{
-            //    {"letters", letters}
-            //};
-
-            return letters;
-        }
-
-        // Excel.UsedRange to read single sheet from workbook, be wary null values. . 
+        
+        // Excel.UsedRange to read a single sheet from workbook, be wary null values. . 
         public List<string> Read(string filename)
         {
             string str;

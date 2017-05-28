@@ -32,6 +32,7 @@ namespace Excel2Json
             */
 
             //Import import = new Import();
+            Scraper scraper = new Scraper();
             Export export = new Export();
             JSONHelper jsonHelper = new JSONHelper();
             Parser parser = new Parser();
@@ -43,26 +44,31 @@ namespace Excel2Json
 
             String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ middel LANDBOUW.xlsx";
 
+            scraper.RetrieveFileName(@"C:\Users\Erik\Desktop\MAAND 1, WEEK 2");
+
             // proper routine needs to go here =) 
-            //content = import.Read(Filame);
-            
+            //content = parser.scrubContent(import.Read(filename));
+
             // temp routine to save single excel sheet as json 
             //export.SaveRaw(import.Read(filename));
-            
+
             // read said json as list
-            content = parser.scrubContent(jsonHelper.loadRaw());
+            //content = parser.scrubContent(jsonHelper.loadRaw());
 
-            jsonHelper.getRowsColumns().ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
-            parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
-            parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+            //jsonHelper.getRowsColumns().ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
+            //parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+            //parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
 
-            calcWordPos.getColRow(contentColRow);
+            //calcWordPos.getColRow(contentColRow);
 
-            calcWordPos.FindFirstLetter(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
+            //calcWordPos.FindFirstLetter(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
-            export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow);
+            //export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow);
 
             //export.SaveIntermediate(contentFormattedStrings);
+
+
+
             Console.Read();
         }
     }
