@@ -6,26 +6,43 @@ using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Excel2Json
 {
     class Import
     {
-        Excel.Application excel = new Excel.Application();
 
-       List<string> contentRaw = new List<string>();
-
-        
-        // Excel.UsedRange to read a single sheet from workbook, be wary null values. . 
-        public List<string> Read(string filename)
+        public Dictionary<string, List<string>> readFile(string filename)
         {
-            string str;
-            int rw = 0;
-            int cl = 0;
+            Dictionary<string, List<string>> singleXLSX = new Dictionary<string, List<string>>();
             Excel.Application excel = new Excel.Application();
             Excel.Workbook wb = excel.Workbooks.Open(filename);
-            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[1];
 
+           foreach(Excel.Worksheet ws in wb.Worksheets)
+            {
+                Console.WriteLine(filename + ws.Name);
+                singleXLSX.Add(filename + ws.Name, SingleSheet(ws));                
+            }
+
+            wb.Close();
+            Marshal.ReleaseComObject(wb);
+
+            excel.Quit();
+            Marshal.ReleaseComObject(excel);
+
+
+            return singleXLSX;
+        }
+
+        public List<string> SingleSheet(Excel.Worksheet ws)
+        {
+            List<string> contentRaw = new List<string>();
+
+            string str;
+            int rw = 0;
+            int cl = 0;        
+           
             Excel.Range range = ws.UsedRange;
             rw = range.Rows.Count;
             cl = range.Columns.Count;
@@ -41,19 +58,13 @@ namespace Excel2Json
                     }
                 }
             }
+                              
+            Marshal.ReleaseComObject(range);
+            Marshal.ReleaseComObject(ws);
 
-            //foreach (string i in contentRaw)
-            //{
-            //    Console.Write(i);
-            //}
-
-            wb.Close();
-            excel.Quit();
             Console.WriteLine("read excel sheet");
             return contentRaw;
         }
-
-        
     }
-    }
+}
 

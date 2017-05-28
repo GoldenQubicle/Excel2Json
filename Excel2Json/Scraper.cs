@@ -9,8 +9,9 @@ namespace Excel2Json
 {
     class Scraper
     {
+        List<string> fileNames = new List<string>();
 
-        public void RetrieveFileName(string path)
+        public List<string> getFiles(string path)
         {
             /*
              needs to do recursive folder search look for 'WOORDZOEKER' folder
@@ -26,11 +27,13 @@ namespace Excel2Json
                 {
                     foreach (string file in Directory.GetFiles(folder))
                     {
-                        Console.WriteLine(file);
+                        fileNames.Add(file);
+                        //Console.WriteLine(file);
                     }
                 }
-                RetrieveFileName(folder);
+                getFiles(folder);
             }
+            return fileNames;
         }
     }
 }
