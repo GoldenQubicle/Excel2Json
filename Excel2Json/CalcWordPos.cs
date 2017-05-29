@@ -14,10 +14,7 @@ namespace Excel2Json
 
         public Dictionary<string, List<int>> FindFirstLetter(Dictionary<string, List<string>> content)
         {
-            // okidoki so accidentally made horizontal search here as well
-            // obv needs to be factored out ~ for now check if json can be loaded client side
-            // also somehow this returns one more than the # of words in words. . weird 
-            // doesnt really matter since it needs refactoring anyway
+
             Dictionary<string, List<int>> ColRow = new Dictionary<string, List<int>>();
             List<int> startCol = new List<int>();
             List<int> startRow = new List<int>();
@@ -40,6 +37,7 @@ namespace Excel2Json
                         startRow.Add(index / rows);
                         endCol.Add((index % cols) + word.Count());
                         endRow.Add(index / rows);
+                        Console.WriteLine("woord = " +  word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " +  (index / rows));
                     }
 
                     if (VerticalSearch(index, word, letters))
@@ -48,7 +46,20 @@ namespace Excel2Json
                         startRow.Add(index / rows);
                         endCol.Add(index % cols);
                         endRow.Add((index / rows) + word.Count());
+                        Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + (index % cols) + " " + ((index / rows) + word.Count()));
+
                     }
+
+                    if (DiagonalSearch(index, word, letters))
+                    {
+                        startCol.Add(index % cols);
+                        startRow.Add(index / rows);
+                        endCol.Add((index % cols) + word.Count());
+                        endRow.Add((index / rows) + word.Count());
+                        Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + ((index / rows) + word.Count()));
+
+                    }
+
 
                     index++;
                 }
@@ -61,6 +72,28 @@ namespace Excel2Json
 
             return ColRow;
         }
+
+        public bool DiagonalSearch(int index, string word, List<string> letters)
+        {
+            if (((index % cols) + word.Count()) <= cols && ((index / rows) + word.Count()) <= rows)
+            {
+                string letterWord = "";
+
+                for (int i = index; i < (index + word.Count() + (rows * word.Count())); i += rows + 1)
+                {
+                    letterWord += letters[i];
+                }
+
+                if (letterWord == word)
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
+        }
+
 
 
         public bool VerticalSearch(int index, string word, List<string> letters)
@@ -83,7 +116,6 @@ namespace Excel2Json
             return false;
         }
 
-
         public bool HorizontalSearch(int index, string word, List<string> letters)
         {
             if (((index % cols) + word.Count()) <= cols)
@@ -103,8 +135,6 @@ namespace Excel2Json
 
             return false;
         }
-
-
 
 
         public Dictionary<string, int> getColRow(string lvl)

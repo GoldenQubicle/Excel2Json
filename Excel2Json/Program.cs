@@ -51,13 +51,13 @@ namespace Excel2Json
             //contentRaw = import.readFile(filename, levels);
 
             // temp routine to save single excel sheet raw data as json 
-            //export.SaveRaw(contentRaw["01"]);
+            //export.SaveRaw(contentRaw["02"]);
 
             // temp: read said json as list and pars it, also temp key
             List<string> content = new List<string>();
             content = jsonHelper.loadRaw();
             content = parser.scrubContent(content);
-            string key = "01";
+            string key = "02";
 
             //foreach(string key in contentRaw.Keys)
             //{
@@ -70,9 +70,8 @@ namespace Excel2Json
 
             parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
             parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
-            calcWordPos.getColRow(key).ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
 
-            //    // so yeah need to pass in the key to determine search directions
+            calcWordPos.getColRow(key).ToList().ForEach(x => contentColRow.Add(x.Key, x.Value)); 
             calcWordPos.FindFirstLetter(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
             export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key);

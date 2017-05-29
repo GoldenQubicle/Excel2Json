@@ -19,7 +19,7 @@ namespace Excel2Json
             Excel.Application excel = new Excel.Application();
             Excel.Workbook wb = excel.Workbooks.Open(filename);
             
-            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[2];
+            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
             Console.WriteLine(filename + " sheet " + ws.Name);
             singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
 
