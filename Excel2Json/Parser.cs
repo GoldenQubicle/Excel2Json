@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Excel2Json
 {
-    class Parser
+    public static class Parser
     {
 
-        string sol = "Oplossing";
-        string[] toIgnore = { "Spel", "kleurcode" };
+        public static string sol = "Oplossing";
+        public static string[] toIgnore = { "Spel", "kleurcode" };
 
-        public List<string> scrubContent(List<string> contentRaw)
+        public static List<string> scrubContent(List<string> contentRaw)
         {
             List<string> contentScrubbed = new List<string>();
             List<int> ignoreIndex = new List<int>();
@@ -56,7 +56,7 @@ namespace Excel2Json
                 {
                     contentScrubbed.Add(keep);
                 }
-            }           
+            }
 
             Console.WriteLine("scrubbed data");
             return contentScrubbed;
@@ -64,24 +64,24 @@ namespace Excel2Json
             //// save scrubbed content, temporary
             //string scrubbedContent = JsonConvert.SerializeObject(content);
             //File.WriteAllText("scrubbedContent.json", scrubbedContent);
-        }         
+        }
 
-        public Dictionary<string, List<string>> getSolutionInfo(List<string> contentToBeSplit)
+        public static Dictionary<string, List<string>> getSolutionInfo(List<string> contentToBeSplit)
         {
             Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
             List<string> solution = new List<string>();
             List<string> info = new List<string>();
 
-            string[] separators = new string[] { " ", ":" , ".", ","};
+            string[] separators = new string[] { " ", ":", ".", "," };
 
             foreach (string i in contentToBeSplit)
-            {             
+            {
 
                 if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
                 {
                     foreach (string word in i.Split(separators, StringSplitOptions.RemoveEmptyEntries))
                     {
-                                   solution.Add(word);
+                        solution.Add(word);
                     }
                     int uitleg = contentToBeSplit.IndexOf(i) + 1;
                     info.Add(contentToBeSplit[uitleg]);
@@ -95,7 +95,7 @@ namespace Excel2Json
             return contentSplit;
         }
 
-        public Dictionary<string, List<string>> getWordsLetters(List<string> contentToBeSplit)
+        public static Dictionary<string, List<string>> getWordsLetters(List<string> contentToBeSplit)
         {
             Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
             List<string> letters = new List<string>();
@@ -103,7 +103,7 @@ namespace Excel2Json
 
             foreach (string i in contentToBeSplit)
             {
-   
+
                 int count = 0;
                 if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
                 {
@@ -127,7 +127,7 @@ namespace Excel2Json
             }
             contentSplit.Add("letters", letters);
             contentSplit.Add("words", words);
-   
+
             Console.WriteLine("split filtered list");
             return contentSplit;
         }

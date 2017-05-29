@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Excel2Json
 {
-    class Export
+   public static class Export
     {
-        
-        public void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow, string key)
+
+        public static void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow, string key)
         {
             Dictionary<string, object> contentFinal = new Dictionary<string, object>();
             contentFinal.Add("columns", colrow["columns"]);
@@ -31,10 +31,10 @@ namespace Excel2Json
 
             string dataFinal = JsonConvert.SerializeObject(contentFinal);
             File.WriteAllText("contentFinal" + key + ".json", dataFinal);
-            Console.WriteLine("saved final file, closing now. Bye!");
+            Console.WriteLine("saved file!");
         }
 
-        public void SaveIntermediate(Dictionary<string, List<string>> contentStrings)
+        public static void SaveIntermediate(Dictionary<string, List<string>> contentStrings)
         {
             string dataStrings = JsonConvert.SerializeObject(contentStrings);
             //string dataInts = JsonConvert.SerializeObject(contentInts);
@@ -44,14 +44,14 @@ namespace Excel2Json
 
         }
 
-        public void SaveRaw(List<string> contentRaw, string key)
+        public static void SaveRaw(List<string> contentRaw, string key)
         {
             string dataRaw = JsonConvert.SerializeObject(contentRaw);
             File.WriteAllText("contentRaw" + key + ".json", dataRaw);
             Console.WriteLine("saved file " + key + ", closing now. Bye!");
         }
 
-        public void Save(Dictionary<string, List<string>> content)
+        public static void Save(Dictionary<string, List<string>> content)
         {
 
             string data = JsonConvert.SerializeObject(content);

@@ -20,16 +20,16 @@ namespace Excel2Json
             Excel.Workbook wb = excel.Workbooks.Open(filename);
 
             // single sheet debug dev
-            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[2];
-            Console.WriteLine(filename + " sheet " + ws.Name);
-            singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+            //Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
+            //Console.WriteLine(filename + " sheet " + ws.Name);
+            //singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
 
-            //// get all sheets from workbook
-            //foreach (Excel.Worksheet ws in wb.Worksheets)
-            //{
-            //    Console.WriteLine("processing sheet: " + ws.Name);
-            //    singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
-            //}
+            // get all sheets from workbook
+            foreach (Excel.Worksheet ws in wb.Worksheets)
+            {
+                Console.WriteLine("processing sheet: " + ws.Name);
+                singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+            }
 
             wb.Close();
             Marshal.ReleaseComObject(wb);
