@@ -44,7 +44,7 @@ namespace Excel2Json
         public List<string> SingleSheet(Excel.Worksheet ws)
         {
             List<string> contentRaw = new List<string>();
-
+            List<int> indexColor = new List<int>();
             string str;
             int rw = 0;
             int cl = 0;
@@ -57,9 +57,12 @@ namespace Excel2Json
             {
                 for (int cCnt = 1; cCnt <= cl; cCnt++)
                 {
+
                     str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
                     if (str != null)
                     {
+                        //double color = (range.Cells[rCnt, cCnt] as Excel.Range).Interior.Color;
+                        //Console.WriteLine("color cell = " + color);
                         contentRaw.Add(str);
                     }
                 }
