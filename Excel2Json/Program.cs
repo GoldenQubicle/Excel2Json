@@ -29,14 +29,15 @@ namespace Excel2Json
             
             */
 
-            Import import = new Import();
+            //Import import = new Import();
             Scraper scraper = new Scraper();
             Export export = new Export();
             JSONHelper jsonHelper = new JSONHelper();
             Parser parser = new Parser();
             CalcWordPos calcWordPos = new CalcWordPos();
             Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
-            
+
+            Dictionary<string, string> levels = Levels();
 
             // proper routine needs to go here =) 
 
@@ -47,35 +48,39 @@ namespace Excel2Json
             //};
 
             String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ makkelijk LANDBOUW.xlsx";
-            contentRaw = import.readFile(filename);
+            //contentRaw = import.readFile(filename, levels);
 
-            foreach(string key in contentRaw.Keys)
-            {
-                List<string> content = new List<string>();
-                Dictionary<string, List<string>> contentFormattedStrings = new Dictionary<string, List<string>>();
-                Dictionary<string, List<int>> contentFormattedInts = new Dictionary<string, List<int>>();
-                Dictionary<string, int> contentColRow = new Dictionary<string, int>();
-
-                content = parser.scrubContent(contentRaw[key]);
-
-                parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
-                parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
-
-                calcWordPos.getColRow(key).ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
-
-                // so yeah need to pass in the key to determine search directions
-                calcWordPos.FindFirstLetter(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
-
-                export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key);
-
-            }
-
-            //import.determineLevels();
             // temp routine to save single excel sheet raw data as json 
-            //export.SaveRaw(import.Read(filename));
+            //export.SaveRaw(contentRaw["01"]);
 
-            // read said json as list
-            //content = parser.scrubContent(jsonHelper.loadRaw());
+            // temp: read said json as list and pars it, also temp key
+            List<string> content = new List<string>();
+            content = jsonHelper.loadRaw();
+            content = parser.scrubContent(content);
+            string key = "01";
+
+            //foreach(string key in contentRaw.Keys)
+            //{
+            //    List<string> content = new List<string>();
+            Dictionary<string, List<string>> contentFormattedStrings = new Dictionary<string, List<string>>();
+            Dictionary<string, List<int>> contentFormattedInts = new Dictionary<string, List<int>>();
+            Dictionary<string, int> contentColRow = new Dictionary<string, int>();
+
+            //    content = parser.scrubContent(contentRaw[key]);
+
+            parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+            parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+            calcWordPos.getColRow(key).ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
+
+            //    // so yeah need to pass in the key to determine search directions
+            calcWordPos.FindFirstLetter(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
+
+            export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key);
+
+            //}
+
+
+
 
             //jsonHelper.getRowsColumns().ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
 
@@ -92,6 +97,25 @@ namespace Excel2Json
 
 
             Console.Read();
+        }
+
+        public static Dictionary<string, string> Levels()
+        {
+            Dictionary<string, string> levelSublevel = new Dictionary<string, string>();
+
+            string[] levels = { "makkelijk ", "middel ", "moelijk ", "moeilijk + " };
+
+            string[] sublevels = { "(makkelijk)", "(middel)", "(moeilijk)" };
+
+            foreach (string level in levels)
+            {
+                foreach (string sublevel in sublevels)
+                {
+                    levelSublevel.Add(level + sublevel, Array.FindIndex(levels, row => row.Contains(level)).ToString() + Array.FindIndex(sublevels, row => row.Contains(sublevel)).ToString());
+                }
+
+            }
+            return levelSublevel;
         }
     }
 }

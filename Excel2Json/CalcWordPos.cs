@@ -33,22 +33,23 @@ namespace Excel2Json
                 string firstLetter = word[0].ToString();
                 while ((index = letters.IndexOf(firstLetter, index)) != -1)
                 {
-                    if (((index % cols) + word.Count()) <= cols) {
-                        string letterWord = "";
 
-                        for (int i = index; i < (index + word.Count()); i++)
-                        {
-                            letterWord += letters[i];
-                        }
-
-                        if (letterWord == word)
-                        {
-                            startCol.Add(index % cols);
-                            startRow.Add(index / rows);
-                            endCol.Add((index % cols) + word.Count());
-                            endRow.Add(index / rows);
-                        }
+                    if (HorizontalSearch(index, word, letters))
+                    {
+                        startCol.Add(index % cols);
+                        startRow.Add(index / rows);
+                        endCol.Add((index % cols) + word.Count());
+                        endRow.Add(index / rows);
                     }
+
+                    if (VerticalSearch(index, word, letters))
+                    {
+                        startCol.Add(index % cols);
+                        startRow.Add(index / rows);
+                        endCol.Add(index % cols);
+                        endRow.Add((index / rows) + word.Count());
+                    }
+
                     index++;
                 }
             }
@@ -61,6 +62,51 @@ namespace Excel2Json
             return ColRow;
         }
 
+
+        public bool VerticalSearch(int index, string word, List<string> letters)
+        {
+            if (((index / rows) + word.Count()) <= rows)
+            {
+                string letterWord = "";
+
+                for (int i = index; i < (index + (word.Count() * rows)); i += rows)
+                {
+                    letterWord += letters[i];
+                }
+
+                if (letterWord == word)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+        public bool HorizontalSearch(int index, string word, List<string> letters)
+        {
+            if (((index % cols) + word.Count()) <= cols)
+            {
+                string letterWord = "";
+
+                for (int i = index; i < (index + word.Count()); i++)
+                {
+                    letterWord += letters[i];
+                }
+
+                if (letterWord == word)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
+
+
         public Dictionary<string, int> getColRow(string lvl)
         {
             if (lvl == "00" || lvl == "01" || lvl == "02")
@@ -68,7 +114,7 @@ namespace Excel2Json
                 cols = 11;
                 rows = 11;
             }
-            
+
             if (lvl == "10" || lvl == "11" || lvl == "12")
             {
                 cols = 12;
@@ -89,13 +135,13 @@ namespace Excel2Json
 
 
             Dictionary<string, int> rowcolumn = new Dictionary<string, int>();
-       
+
             rowcolumn.Add("columns", cols);
             rowcolumn.Add("rows", rows);
 
             return rowcolumn;
         }
-        
+
         // obsolete, was used in cojunction with json helper
         //public void getColRow(Dictionary<string, int> colrow)
         //{
