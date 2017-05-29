@@ -29,13 +29,13 @@ namespace Excel2Json
             
             */
 
-            //Import import = new Import();
+            Import import = new Import();
             Scraper scraper = new Scraper();
             Export export = new Export();
             JSONHelper jsonHelper = new JSONHelper();
             Parser parser = new Parser();
             CalcWordPos calcWordPos = new CalcWordPos();
-            Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
+            //Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
 
             Dictionary<string, string> levels = Levels();
 
@@ -44,42 +44,52 @@ namespace Excel2Json
             //string path = @"C:\Users\Erik\Desktop\MAAND 1, WEEK 2";
             //foreach (string file in scraper.getFiles(path))
             //{
-            //    Console.WriteLine(file);
-            //};
+                //for(int i = 0; i < 4; i++) {
+                Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
 
-            String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ makkelijk LANDBOUW.xlsx";
-            //contentRaw = import.readFile(filename, levels);
+            //string file = scraper.getFiles(path)[i];
+            //Console.WriteLine("opening file " + file);
+            //contentRaw = import.readFile(file, levels);
+
+
+            String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ moeilijk LANDBOUW.xlsx";
+
+            contentRaw = import.readFile(filename, levels);
 
             // temp routine to save single excel sheet raw data as json 
             //export.SaveRaw(contentRaw["02"]);
 
             // temp: read said json as list and pars it, also temp key
-            List<string> content = new List<string>();
-            content = jsonHelper.loadRaw();
-            content = parser.scrubContent(content);
-            string key = "02";
+            //List<string> content = new List<string>();
+            //content = jsonHelper.loadRaw();
+            //content = parser.scrubContent(content);
+            //string key = "02";
 
-            //foreach(string key in contentRaw.Keys)
-            //{
-            //    List<string> content = new List<string>();
-            Dictionary<string, List<string>> contentFormattedStrings = new Dictionary<string, List<string>>();
-            Dictionary<string, List<int>> contentFormattedInts = new Dictionary<string, List<int>>();
-            Dictionary<string, int> contentColRow = new Dictionary<string, int>();
+            foreach (string key in contentRaw.Keys)
+                {
 
-            //    content = parser.scrubContent(contentRaw[key]);
+                    //export.SaveRaw(contentRaw[key], key);
 
-            parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
-            parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+                    List<string> content = new List<string>();
+                    Dictionary<string, List<string>> contentFormattedStrings = new Dictionary<string, List<string>>();
+                    Dictionary<string, List<int>> contentFormattedInts = new Dictionary<string, List<int>>();
+                    Dictionary<string, int> contentColRow = new Dictionary<string, int>();
 
-            calcWordPos.getColRow(key).ToList().ForEach(x => contentColRow.Add(x.Key, x.Value)); 
-            calcWordPos.FindFirstLetter(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
+                    content = parser.scrubContent(contentRaw[key]);
 
-            export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key);
+                    parser.getWordsLetters(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
+                    parser.getSolutionInfo(content).ToList().ForEach(x => contentFormattedStrings.Add(x.Key, x.Value));
 
-            //}
+                    calcWordPos.getColRow(key).ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
+                    calcWordPos.FindWords(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
+                    calcWordPos.FindSolution(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
+                    export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key);
+                
+            }
 
+            
 
             //jsonHelper.getRowsColumns().ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
 
@@ -102,7 +112,7 @@ namespace Excel2Json
         {
             Dictionary<string, string> levelSublevel = new Dictionary<string, string>();
 
-            string[] levels = { "makkelijk ", "middel ", "moelijk ", "moeilijk + " };
+            string[] levels = { "makkelijk ", "middel ", "moeilijk ", "moeilijk + " };
 
             string[] sublevels = { "(makkelijk)", "(middel)", "(moeilijk)" };
 

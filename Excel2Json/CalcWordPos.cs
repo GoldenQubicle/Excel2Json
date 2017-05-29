@@ -12,7 +12,7 @@ namespace Excel2Json
         int cols;
         int rows;
 
-        public Dictionary<string, List<int>> FindFirstLetter(Dictionary<string, List<string>> content)
+        public Dictionary<string, List<int>> FindWords(Dictionary<string, List<string>> content)
         {
 
             Dictionary<string, List<int>> ColRow = new Dictionary<string, List<int>>();
@@ -37,29 +37,29 @@ namespace Excel2Json
                         startRow.Add(index / rows);
                         endCol.Add((index % cols) + word.Count());
                         endRow.Add(index / rows);
-                        Console.WriteLine("woord = " +  word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " +  (index / rows));
+                        //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + (index / rows));
+                        break;
                     }
 
-                    if (VerticalSearch(index, word, letters))
+                    else if (VerticalSearch(index, word, letters))
                     {
                         startCol.Add(index % cols);
                         startRow.Add(index / rows);
                         endCol.Add(index % cols);
                         endRow.Add((index / rows) + word.Count());
-                        Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + (index % cols) + " " + ((index / rows) + word.Count()));
-
+                        //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + (index % cols) + " " + ((index / rows) + word.Count()));
+                        break;
                     }
 
-                    if (DiagonalSearch(index, word, letters))
+                    else if (DiagonalSearch(index, word, letters))
                     {
                         startCol.Add(index % cols);
                         startRow.Add(index / rows);
                         endCol.Add((index % cols) + word.Count());
                         endRow.Add((index / rows) + word.Count());
-                        Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + ((index / rows) + word.Count()));
-
+                        //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + ((index / rows) + word.Count()));
+                        break;
                     }
-
 
                     index++;
                 }
@@ -73,9 +73,49 @@ namespace Excel2Json
             return ColRow;
         }
 
+        public Dictionary<string, List<int>> FindSolution(Dictionary<string, List<string>> content)
+        {
+
+            Dictionary<string, List<int>> SolColRow = new Dictionary<string, List<int>>();
+            List<int> solColStart = new List<int>();
+            List<int> solRowStart = new List<int>();
+            List<int> solColEnd = new List<int>();
+            List<int> solRowEnd = new List<int>();
+
+            List<string> solution = content["solution"];
+            List<string> letters = content["letters"];
+
+            foreach (string word in solution)
+            {
+                int index = 0;
+                string firstLetter = word[0].ToString().ToLower();
+
+                while ((index = letters.IndexOf(firstLetter, index)) != -1)
+                {
+                    if (HorizontalSearch(index, word, letters))
+                    {
+                        solColStart.Add(index % cols);
+                        solRowStart.Add(index / rows);
+                        solColEnd.Add((index % cols) + word.Count());
+                        solRowEnd.Add(index / rows);
+                        Console.WriteLine("woord oplossing = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + (index / rows));
+                    }
+
+                    index++;
+                }
+            }
+
+            SolColRow.Add("solColStart", solColStart);
+            SolColRow.Add("solRowStart", solRowStart);
+            SolColRow.Add("solColEnd", solColEnd);
+            SolColRow.Add("solRowEnd", solRowEnd);
+            return SolColRow;
+        }
+
+
         public bool DiagonalSearch(int index, string word, List<string> letters)
         {
-            if (((index % cols) + word.Count()) <= cols && ((index / rows) + word.Count()) <= rows)
+            if (((index % cols) + word.Count()) < (cols-1) && ((index / rows) + word.Count()) < (rows-1))
             {
                 string letterWord = "";
 
@@ -84,7 +124,7 @@ namespace Excel2Json
                     letterWord += letters[i];
                 }
 
-                if (letterWord == word)
+                if (letterWord == word.ToLower())
                 {
                     return true;
                 }
@@ -94,11 +134,9 @@ namespace Excel2Json
             return false;
         }
 
-
-
         public bool VerticalSearch(int index, string word, List<string> letters)
         {
-            if (((index / rows) + word.Count()) <= rows)
+            if (((index / rows) + word.Count()) < (rows-1))
             {
                 string letterWord = "";
 
@@ -107,7 +145,7 @@ namespace Excel2Json
                     letterWord += letters[i];
                 }
 
-                if (letterWord == word)
+                if (letterWord == word.ToLower())
                 {
                     return true;
                 }
@@ -118,16 +156,17 @@ namespace Excel2Json
 
         public bool HorizontalSearch(int index, string word, List<string> letters)
         {
-            if (((index % cols) + word.Count()) <= cols)
+            if (((index % cols) + word.Count()) < (cols-1))
             {
                 string letterWord = "";
 
                 for (int i = index; i < (index + word.Count()); i++)
                 {
                     letterWord += letters[i];
+                    //Console.WriteLine(word + " " + letterWord);
                 }
 
-                if (letterWord == word)
+                if (letterWord == word.ToLower())
                 {
                     return true;
                 }
@@ -135,7 +174,6 @@ namespace Excel2Json
 
             return false;
         }
-
 
         public Dictionary<string, int> getColRow(string lvl)
         {

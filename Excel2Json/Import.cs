@@ -18,17 +18,18 @@ namespace Excel2Json
             Dictionary<string, List<string>> singleXLSX = new Dictionary<string, List<string>>();
             Excel.Application excel = new Excel.Application();
             Excel.Workbook wb = excel.Workbooks.Open(filename);
-            
-            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
-            Console.WriteLine(filename + " sheet " + ws.Name);
-            singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+
+            // single sheet debug dev
+            //Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
+            //Console.WriteLine(filename + " sheet " + ws.Name);
+            //singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
 
             //// get all sheets from workbook
-            //foreach (Excel.Worksheet ws in wb.Worksheets)
-            //{
-            //    Console.WriteLine(filename + " sheet " +  ws.Name);
-            //    singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
-            //}
+            foreach (Excel.Worksheet ws in wb.Worksheets)
+            {
+                Console.WriteLine("processing sheet: " + ws.Name);
+                singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+            }
 
             wb.Close();
             Marshal.ReleaseComObject(wb);
@@ -73,7 +74,7 @@ namespace Excel2Json
             Marshal.ReleaseComObject(range);
             Marshal.ReleaseComObject(ws);
 
-            Console.WriteLine("read excel sheet");
+            Console.WriteLine("processing done");
             return contentRaw;
         }
     }

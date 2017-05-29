@@ -24,6 +24,10 @@ namespace Excel2Json
             contentFinal.Add("startRow", contentInt["startRow"].ToList());
             contentFinal.Add("endCol", contentInt["endCol"].ToList());
             contentFinal.Add("endRow", contentInt["endRow"].ToList());
+            contentFinal.Add("solColStart", contentInt["solColStart"].ToList());
+            contentFinal.Add("solRowStart", contentInt["solRowStart"].ToList());
+            contentFinal.Add("solColEnd", contentInt["solColEnd"].ToList());
+            contentFinal.Add("solRowEnd", contentInt["solRowEnd"].ToList());
 
             string dataFinal = JsonConvert.SerializeObject(contentFinal);
             File.WriteAllText("contentFinal" + key + ".json", dataFinal);
@@ -40,11 +44,11 @@ namespace Excel2Json
 
         }
 
-        public void SaveRaw(List<string> contentRaw)
+        public void SaveRaw(List<string> contentRaw, string key)
         {
             string dataRaw = JsonConvert.SerializeObject(contentRaw);
-            File.WriteAllText("contentRaw.json", dataRaw);
-            Console.WriteLine("saved file, closing now. Bye!");
+            File.WriteAllText("contentRaw" + key + ".json", dataRaw);
+            Console.WriteLine("saved file " + key + ", closing now. Bye!");
         }
 
         public void Save(Dictionary<string, List<string>> content)
