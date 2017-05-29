@@ -33,10 +33,10 @@ namespace Excel2Json
             return rowcolumn;
         }
 
-        public List<string> loadRaw()
+        public List<string> loadRaw(string key)
         {
             List<string> contentRaw = new List<string>();
-            using (StreamReader r = new StreamReader("contentRaw.json"))
+            using (StreamReader r = new StreamReader("contentRaw" + key + ".json"))
             {
                 string json = r.ReadToEnd();
                 List<string> items = JsonConvert.DeserializeObject<List<string>>(json);

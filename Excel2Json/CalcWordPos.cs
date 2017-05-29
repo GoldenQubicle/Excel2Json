@@ -115,7 +115,7 @@ namespace Excel2Json
 
         public bool DiagonalSearch(int index, string word, List<string> letters)
         {
-            if (((index % cols) + word.Count()) < (cols-1) && ((index / rows) + word.Count()) < (rows-1))
+            if (((index % cols) + word.Count()) <= cols && ((index / rows) + word.Count()) <= rows)
             {
                 string letterWord = "";
 
@@ -136,7 +136,7 @@ namespace Excel2Json
 
         public bool VerticalSearch(int index, string word, List<string> letters)
         {
-            if (((index / rows) + word.Count()) < (rows-1))
+            if (((index / rows) + word.Count()) <= (rows))
             {
                 string letterWord = "";
 
@@ -156,7 +156,7 @@ namespace Excel2Json
 
         public bool HorizontalSearch(int index, string word, List<string> letters)
         {
-            if (((index % cols) + word.Count()) < (cols-1))
+            if (((index % cols) + word.Count()) <= cols)
             {
                 string letterWord = "";
 

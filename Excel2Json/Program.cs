@@ -41,34 +41,32 @@ namespace Excel2Json
 
             // proper routine needs to go here =) 
 
-            //string path = @"C:\Users\Erik\Desktop\MAAND 1, WEEK 2";
+            string path = @"C:\Users\Erik\Desktop\MAAND 1, WEEK 2";
             //foreach (string file in scraper.getFiles(path))
             //{
-                //for(int i = 0; i < 4; i++) {
+            for (int i = 0; i < 4; i++)
+            {
                 Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
+                string file = scraper.getFiles(path)[i];
+                Console.WriteLine("opening file " + file);
+                contentRaw = import.readFile(file, levels);
 
-            //string file = scraper.getFiles(path)[i];
-            //Console.WriteLine("opening file " + file);
-            //contentRaw = import.readFile(file, levels);
 
+                //String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ moeilijk LANDBOUW.xlsx";
 
-            String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ moeilijk LANDBOUW.xlsx";
+                //contentRaw = import.readFile(filename, levels);
+                //string key = "20";
 
-            contentRaw = import.readFile(filename, levels);
+                // temp routine to save single excel sheet raw data as json 
+                //export.SaveRaw(contentRaw[key], key);
 
-            // temp routine to save single excel sheet raw data as json 
-            //export.SaveRaw(contentRaw["02"]);
+                // temp: read said json as list and pars it, also temp key
+                //List<string> content = new List<string>();
+                //content = jsonHelper.loadRaw(key);
+                //content = parser.scrubContent(content);
 
-            // temp: read said json as list and pars it, also temp key
-            //List<string> content = new List<string>();
-            //content = jsonHelper.loadRaw();
-            //content = parser.scrubContent(content);
-            //string key = "02";
-
-            foreach (string key in contentRaw.Keys)
+                foreach (string key in contentRaw.Keys)
                 {
-
-                    //export.SaveRaw(contentRaw[key], key);
 
                     List<string> content = new List<string>();
                     Dictionary<string, List<string>> contentFormattedStrings = new Dictionary<string, List<string>>();
@@ -86,10 +84,10 @@ namespace Excel2Json
                     calcWordPos.FindSolution(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
                     export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key);
-                
-            }
 
-            
+
+                }
+            }
 
             //jsonHelper.getRowsColumns().ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
 
@@ -108,25 +106,25 @@ namespace Excel2Json
             Console.Read();
         }
 
-        public static Dictionary<string, string> Levels()
+    public static Dictionary<string, string> Levels()
+    {
+        Dictionary<string, string> levelSublevel = new Dictionary<string, string>();
+
+        string[] levels = { "makkelijk ", "middel ", "moeilijk ", "moeilijk + " };
+
+        string[] sublevels = { "(makkelijk)", "(middel)", "(moeilijk)" };
+
+        foreach (string level in levels)
         {
-            Dictionary<string, string> levelSublevel = new Dictionary<string, string>();
-
-            string[] levels = { "makkelijk ", "middel ", "moeilijk ", "moeilijk + " };
-
-            string[] sublevels = { "(makkelijk)", "(middel)", "(moeilijk)" };
-
-            foreach (string level in levels)
+            foreach (string sublevel in sublevels)
             {
-                foreach (string sublevel in sublevels)
-                {
-                    levelSublevel.Add(level + sublevel, Array.FindIndex(levels, row => row.Contains(level)).ToString() + Array.FindIndex(sublevels, row => row.Contains(sublevel)).ToString());
-                }
-
+                levelSublevel.Add(level + sublevel, Array.FindIndex(levels, row => row.Contains(level)).ToString() + Array.FindIndex(sublevels, row => row.Contains(sublevel)).ToString());
             }
-            return levelSublevel;
+
         }
+        return levelSublevel;
     }
+}
 }
 
 

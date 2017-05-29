@@ -71,7 +71,7 @@ namespace Excel2Json
             List<string> solution = new List<string>();
             List<string> info = new List<string>();
 
-            string[] separators = new string[] { " ", ":" , "."};
+            string[] separators = new string[] { " ", ":" , ".", ","};
 
             foreach (string i in contentToBeSplit)
             {
