@@ -9,6 +9,7 @@ namespace Excel2Json
 {
     class CalcWordPos
     {
+
         int cols;
         int rows;
 
@@ -112,7 +113,6 @@ namespace Excel2Json
             return SolColRow;
         }
 
-
         public bool DiagonalSearch(int index, string word, List<string> letters)
         {
             if (((index % cols) + word.Count()) <= cols && ((index / rows) + word.Count()) <= rows)
@@ -209,13 +209,6 @@ namespace Excel2Json
 
             return rowcolumn;
         }
-
-        // obsolete, was used in cojunction with json helper
-        //public void getColRow(Dictionary<string, int> colrow)
-        //{
-        //     cols = colrow["columns"];
-        //     rows = colrow["rows"];
-        //}
-
+        
     }
 }

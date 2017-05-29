@@ -11,6 +11,7 @@ namespace Excel2Json
 {
     class JSONHelper
     {
+
         public Dictionary<string, int> getRowsColumns()
         {
             /*
@@ -45,7 +46,6 @@ namespace Excel2Json
             Console.WriteLine("read in contentRaw.json");
             return contentRaw;
         }
+
     }
-
-
 }

@@ -58,5 +58,6 @@ namespace Excel2Json
             File.WriteAllText("data.json", data);
             Console.WriteLine("succesfully saved file!");
         }
+
     }
 }

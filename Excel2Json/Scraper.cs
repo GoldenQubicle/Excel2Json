@@ -9,6 +9,7 @@ namespace Excel2Json
 {
     class Scraper
     {
+
         List<string> fileNames = new List<string>();
 
         public List<string> getFiles(string path)
@@ -35,5 +36,6 @@ namespace Excel2Json
             }
             return fileNames;
         }
+
     }
 }

@@ -11,6 +11,7 @@ namespace Excel2Json
 {
     class Parser
     {
+
         string sol = "Oplossing";
         string[] toIgnore = { "Spel", "kleurcode" };
 
@@ -55,7 +56,7 @@ namespace Excel2Json
                 {
                     contentScrubbed.Add(keep);
                 }
-            }
+            }           
 
             Console.WriteLine("scrubbed data");
             return contentScrubbed;
@@ -63,7 +64,7 @@ namespace Excel2Json
             //// save scrubbed content, temporary
             //string scrubbedContent = JsonConvert.SerializeObject(content);
             //File.WriteAllText("scrubbedContent.json", scrubbedContent);
-        }
+        }         
 
         public Dictionary<string, List<string>> getSolutionInfo(List<string> contentToBeSplit)
         {
@@ -74,12 +75,13 @@ namespace Excel2Json
             string[] separators = new string[] { " ", ":" , ".", ","};
 
             foreach (string i in contentToBeSplit)
-            {
+            {             
+
                 if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
                 {
                     foreach (string word in i.Split(separators, StringSplitOptions.RemoveEmptyEntries))
                     {
-                        solution.Add(word);
+                                   solution.Add(word);
                     }
                     int uitleg = contentToBeSplit.IndexOf(i) + 1;
                     info.Add(contentToBeSplit[uitleg]);
@@ -101,6 +103,7 @@ namespace Excel2Json
 
             foreach (string i in contentToBeSplit)
             {
+   
                 int count = 0;
                 if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
                 {
@@ -128,5 +131,6 @@ namespace Excel2Json
             Console.WriteLine("split filtered list");
             return contentSplit;
         }
+
     }
 }
