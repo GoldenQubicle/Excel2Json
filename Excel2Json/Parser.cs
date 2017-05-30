@@ -76,19 +76,21 @@ namespace Excel2Json
 
             foreach (string i in contentToBeSplit)
             {
-
                 if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
                 {
                     foreach (string word in i.Split(separators, StringSplitOptions.RemoveEmptyEntries))
                     {
-                        solution.Add(word);
+                        if (word != "solution") // remove the solution clue added at import
+                        {
+                            solution.Add(word);
+                        }
                     }
                     int uitleg = contentToBeSplit.IndexOf(i) + 1;
                     info.Add(contentToBeSplit[uitleg]);
                 }
 
             }
-            solution.RemoveAt(0);
+            solution.RemoveAt(0);          
             contentSplit.Add("solution", solution);
             contentSplit.Add("info", info);
 
@@ -116,9 +118,10 @@ namespace Excel2Json
                         count++;
                     }
                 }
-                if (count == 1 || count == 2)
+                if (count == 1 || count == 2 || i.Contains("solution"))
                 {
                     letters.Add(i);
+                    //Console.WriteLine(i);
                 }
                 else
                 {

@@ -10,26 +10,28 @@ using System.Runtime.InteropServices;
 
 namespace Excel2Json
 {
-    class Import
+   public static class Import
     {
-           
-        public Dictionary<string, List<string>> readFile(string filename, Dictionary<string, string> lvl)
+
+        public static Dictionary<string, List<string>> readFile(string filename, Dictionary<string, string> lvl)
         {
             Dictionary<string, List<string>> singleXLSX = new Dictionary<string, List<string>>();
             Excel.Application excel = new Excel.Application();
             Excel.Workbook wb = excel.Workbooks.Open(filename);
 
             // single sheet debug dev
-            //Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
-            //Console.WriteLine(filename + " sheet " + ws.Name);
-            //singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[2];
+            Console.WriteLine("processing sheet: " + ws.Name);
+            singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+            //getGrid(ws);
+
 
             // get all sheets from workbook
-            foreach (Excel.Worksheet ws in wb.Worksheets)
-            {
-                Console.WriteLine("processing sheet: " + ws.Name);
-                singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
-            }
+            //foreach (Excel.Worksheet ws in wb.Worksheets)
+            //{
+            //    Console.WriteLine("processing sheet: " + ws.Name);
+            //    singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+            //}
 
             wb.Close();
             Marshal.ReleaseComObject(wb);
@@ -41,7 +43,7 @@ namespace Excel2Json
             return singleXLSX;
         }
 
-        public List<string> SingleSheet(Excel.Worksheet ws)
+        public static List<string> SingleSheet(Excel.Worksheet ws)
         {
             List<string> contentRaw = new List<string>();
             List<int> indexColor = new List<int>();
@@ -57,12 +59,16 @@ namespace Excel2Json
             {
                 for (int cCnt = 1; cCnt <= cl; cCnt++)
                 {
-
                     str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
                     if (str != null)
                     {
-                        //double color = (range.Cells[rCnt, cCnt] as Excel.Range).Interior.Color;
-                        //Console.WriteLine("color cell = " + color);
+                        if ((range.Cells[rCnt, cCnt] as Excel.Range).Interior.Color == 13421823)
+                        {
+                            // color pink = long 13421823
+                            // add solution clue to the letter, based off background color cells
+                            str += "solution";
+                        }
+                        
                         contentRaw.Add(str);
                     }
                 }
@@ -74,8 +80,62 @@ namespace Excel2Json
             Console.WriteLine("processing done");
             return contentRaw;
         }
+        
+        public static void getGrid(Excel.Worksheet ws)
+        {
+            Excel.Range range = ws.UsedRange;
+            //Excel.Range range = ws.Range["C25", "M35"];
+            // Create and fill the grid
+            var grid = new ValueGrid();
+            int r = 0;
+            int c = 0;
 
-        public string determineLevels(string wsName, Dictionary<string, string> levelSublevel)
+            // Loop through the grid-values and store them in the ValueGrid
+            foreach (Excel.Range row in range.Rows)
+            {
+                foreach (Excel.Range cell in row.Cells)
+                {
+                    //Console.WriteLine($"({r}, {c}): {cell.Value2}");
+                    string str = cell.Value2;
+                    if (str != null && str.Count() <= 1)
+                    {
+                        grid.Add(r, c, cell.Value2);
+                    }
+                    c++; // Next column
+                }
+                r++; // Next row
+                c = 0; // Reset column
+            }
+
+
+            Console.WriteLine(grid.ColumnCount.ToString() + " " + grid.RowCount);
+
+            //Print the found grid
+            for (r = 0; r < grid.RowCount; r++)
+            {
+                // Get all the values for this row
+                var values = new List<dynamic>();
+
+                for (c = 0; c < grid.ColumnCount; c++)
+                {
+                    values.Add(grid[r, c]);
+                }
+                var print = values
+                    .Select(v => (v == null ? "" : v.ToString()).PadLeft(10) + " ") // Give the value some space in the string
+                    .ToArray();
+
+                // Print the row
+                Console.WriteLine(string.Join("|", print));
+            }
+
+
+            Marshal.ReleaseComObject(range);
+            Marshal.ReleaseComObject(ws);
+
+            Console.WriteLine("processing done");
+        }
+
+        public static string determineLevels(string wsName, Dictionary<string, string> levelSublevel)
         {
             string lvl = levelSublevel[wsName];
             return lvl;

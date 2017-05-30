@@ -90,19 +90,48 @@ namespace Excel2Json
             {
                 int index = 0;
                 string firstLetter = word[0].ToString().ToLower();
-
+                firstLetter += "solution";
                 while ((index = letters.IndexOf(firstLetter, index)) != -1)
                 {
-                    if (HorizontalSearch(index, word, letters))
+                    if (((index % cols) + word.Count()) <= cols)
                     {
-                        solColStart.Add(index % cols);
-                        solRowStart.Add(index / rows);
-                        solColEnd.Add((index % cols) + word.Count());
-                        solRowEnd.Add(index / rows);
-                        //Console.WriteLine("woord oplossing = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + (index / rows));
+                        string letterWord = "";
+
+                        for (int i = index; i < (index + word.Count()); i++)
+                        {
+                            if (letters[i].Contains("solution")) // extra check for solution clue
+                            {
+                                letterWord += letters[i][0];
+                                if (letterWord == word.ToLower())
+                                {
+                                    solColStart.Add(index % cols);
+                                    solRowStart.Add(index / rows);
+                                    solColEnd.Add((index % cols) + word.Count());
+                                    solRowEnd.Add(index / rows);
+                                    break;
+                                }
+                            }
+                        }
                     }
 
                     index++;
+                }
+            }
+
+            // remove the solution clue from letter array
+            for (var i = 0; i < letters.Count(); i++)
+            {
+                if (letters[i].Contains("solution"))
+                {
+                    if (letters[i].Contains("ij"))
+                    {
+                        letters[i] = letters[i].Remove(2, 8);
+
+                    }
+                    else
+                    {
+                        letters[i] = letters[i].Remove(1, 8);
+                    }
                 }
             }
 
@@ -209,6 +238,6 @@ namespace Excel2Json
 
             return rowcolumn;
         }
-        
+
     }
 }

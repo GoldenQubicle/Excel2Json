@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Excel2Json
 {
-    class Scraper
+    public static class Scraper
     {
 
-        List<string> fileNames = new List<string>();
+        static List<string> fileNames = new List<string>();
 
-        public List<string> getFiles(string path)
+        public static List<string> getFiles(string path)
         {
             /*
              needs to do recursive folder search look for 'WOORDZOEKER' folder

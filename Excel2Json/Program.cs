@@ -17,26 +17,26 @@ namespace Excel2Json
             /*
              
             TODO
-            somehow check for ij in words & solution without fucking over letter array
-
-            for solution, check simple words ('en') either by check left and right to see if there's an x <= this pls
-            WHAT IF check background color cell? 
-                                
-            adjust the js in project to accomodate solution split into words (.e.g join together on client and pass into existing linesolution var)
+            
+            think this is handled properly now ! somehow check for ij in words & solution without fucking over letter array ~ in moeilijk + middel
+                                                 
+            adjust the javascript in project to accomodate solution split into words (i.e. join together on client and pass into existing linesolution var)
+            
+            check interpunction solution words, ask Bardo & Paul how this was handled in the javascript
             
             determine themeDay on folder / path               
+
+            for extra bonus fun points: select search direction on level, i.e. currently searches vert & dia when its not necessarry
             
             */
 
-            Import import = new Import();
-            Scraper scraper = new Scraper();
             JSONHelper jsonHelper = new JSONHelper();
             Dictionary<string, string> levels = Levels();
 
             // ~~~~ debug dev stuff ~~~~
             //String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ moeilijk LANDBOUW.xlsx";
             //Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
-            //contentRaw = import.readFile(filename, levels); 
+            //contentRaw = Import.readFile(filename, levels); 
             //string key = "22"; // note key needs to correspond to sheet # during import
             //ProcessSheet(key, contentRaw);
 
@@ -51,15 +51,15 @@ namespace Excel2Json
 
             // ~~~~ proper routine ~~~~
             string path = @"C:\Users\Erik\Desktop\MAAND 1, WEEK 2";
-            List<string> files = scraper.getFiles(path);
+            List<string> files = Scraper.getFiles(path);
             //foreach (string file in files)
             //{
-            for (int i = 0; i < 1; i++)
+            for (int i = 2; i < 3; i++)
             {
                 Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
-                string file = scraper.getFiles(path)[i];
+                string file = Scraper.getFiles(path)[i];
                 Console.WriteLine("opening file " + file);
-                contentRaw = import.readFile(file, levels);
+                contentRaw = Import.readFile(file, levels);
                 foreach (string key in contentRaw.Keys)
                 {
                     ProcessSheet(key, contentRaw);
