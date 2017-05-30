@@ -62,13 +62,18 @@ namespace Excel2Json
                     str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
                     if (str != null)
                     {
+                        if (str.Contains("ij"))
+                        {
+                           str =  str.Replace("ij", "y");
+                        }
+
                         if ((range.Cells[rCnt, cCnt] as Excel.Range).Interior.Color == 13421823)
                         {
                             // color pink = long 13421823
                             // add solution clue to the letter, based off background color cells
                             str += "solution";
                         }
-                        
+                        //Console.WriteLine(str);
                         contentRaw.Add(str);
                     }
                 }

@@ -70,7 +70,7 @@ namespace Excel2Json
             ColRow.Add("startRow", startRow);
             ColRow.Add("endCol", endCol);
             ColRow.Add("endRow", endRow);
-
+            Console.WriteLine("found all positions words");
             return ColRow;
         }
 
@@ -91,22 +91,25 @@ namespace Excel2Json
                 int index = 0;
                 string firstLetter = word[0].ToString().ToLower();
                 firstLetter += "solution";
+                int wordLength = word.Count();
+            
                 while ((index = letters.IndexOf(firstLetter, index)) != -1)
                 {
-                    if (((index % cols) + word.Count()) <= cols)
+                    if (((index % cols) + wordLength) <= cols)
                     {
                         string letterWord = "";
 
-                        for (int i = index; i < (index + word.Count()); i++)
+                        for (int i = index; i < (index + wordLength); i++)
                         {
                             if (letters[i].Contains("solution")) // extra check for solution clue
                             {
-                                letterWord += letters[i][0];
+                                letterWord += letters[i].Remove(letters[i].Length - 8);
+
                                 if (letterWord == word.ToLower())
                                 {
                                     solColStart.Add(index % cols);
                                     solRowStart.Add(index / rows);
-                                    solColEnd.Add((index % cols) + word.Count());
+                                    solColEnd.Add((index % cols) + wordLength);
                                     solRowEnd.Add(index / rows);
                                     break;
                                 }
@@ -123,15 +126,15 @@ namespace Excel2Json
             {
                 if (letters[i].Contains("solution"))
                 {
-                    if (letters[i].Contains("ij"))
-                    {
-                        letters[i] = letters[i].Remove(2, 8);
+                    //if (letters[i].Contains("ij"))
+                    //{
+                    //    letters[i] = letters[i].Remove(2, 8);
 
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         letters[i] = letters[i].Remove(1, 8);
-                    }
+                    //}
                 }
             }
 
@@ -139,6 +142,8 @@ namespace Excel2Json
             SolColRow.Add("solRowStart", solRowStart);
             SolColRow.Add("solColEnd", solColEnd);
             SolColRow.Add("solRowEnd", solRowEnd);
+            Console.WriteLine("found all positions solution");
+
             return SolColRow;
         }
 

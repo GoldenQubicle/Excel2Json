@@ -84,7 +84,6 @@ namespace Excel2Json
 
             CalcWordPos.getColRow(key).ToList().ForEach(x => contentColRow.Add(x.Key, x.Value));
             CalcWordPos.FindWords(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
-
             CalcWordPos.FindSolution(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
             Export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key);

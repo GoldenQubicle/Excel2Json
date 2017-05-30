@@ -83,6 +83,7 @@ namespace Excel2Json
                         if (word != "solution") // remove the solution clue added at import
                         {
                             solution.Add(word);
+                            //Console.WriteLine(word);
                         }
                     }
                     int uitleg = contentToBeSplit.IndexOf(i) + 1;
@@ -105,7 +106,6 @@ namespace Excel2Json
 
             foreach (string i in contentToBeSplit)
             {
-
                 int count = 0;
                 if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
                 {
@@ -123,11 +123,12 @@ namespace Excel2Json
                     letters.Add(i);
                     //Console.WriteLine(i);
                 }
-                else
+                else if (!i.Contains(" "))
                 {
                     words.Add(i);
                 }
             }
+
             contentSplit.Add("letters", letters);
             contentSplit.Add("words", words);
 
