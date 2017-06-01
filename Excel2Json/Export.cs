@@ -11,7 +11,7 @@ namespace Excel2Json
     public static class Export
     {
 
-        public static void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow, string key)
+        public static void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow, string key, string folderPath)
         {
             // check to make sure number of letters equals numbers of cells
             if (colrow["rows"] * colrow["columns"] == contentString["letters"].Count())
@@ -33,8 +33,8 @@ namespace Excel2Json
                 contentFinal.Add("solRowEnd", contentInt["solRowEnd"].ToList());
 
                 string dataFinal = JsonConvert.SerializeObject(contentFinal);
-                File.WriteAllText("contentFinal" + key + ".json", dataFinal);
-                Console.WriteLine("saved file!");
+                File.WriteAllText(folderPath + "\\ws-" + key + ".json", dataFinal);
+                Console.WriteLine("saved file : " + folderPath + "\\" + key + ".json");
             }
             else
             {

@@ -49,39 +49,50 @@ namespace Excel2Json
             // ~~~~ proper routine ~~~~
             string path = @"C:\Users\Erik\Desktop\KK cloud content";
             List<string> files = Scraper.getFiles(path);
-            int daily = 0;
-            int themeDay = 0;
+            int fileCount = 1;
+            int dayCount = 1;
+            int weekCount = 1;
 
 
-            for (int i = 0; i < 1; i++)
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    string file = Scraper.getFiles(path)[i];
+            foreach (string file in files) // process everything! 
             {
-                string file = Scraper.getFiles(path)[i];
-         //    foreach (string file in files) // process everything! 
-         //{
-                daily += 1;
 
-                Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
-                Console.WriteLine("opening file " + file);
-                contentRaw = Import.readFile(file, levels);
+                //Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
+                //Console.WriteLine("opening file " + file);
+                //contentRaw = Import.readFile(file, levels);
 
-                foreach (string key in contentRaw.Keys)
+                //Console.WriteLine(Scraper.folders[dayCount].ToString());
+                string folderPath = Scraper.folders[dayCount].ToString();
+
+                //foreach (string key in contentRaw.Keys)
+                //{
+                //    ProcessSheet(key, contentRaw, folderPath);
+                //}
+
+
+
+                if (fileCount > 4)
                 {
-                    ProcessSheet(key, contentRaw);
+                    fileCount = 1;
+                    dayCount += 1;
+                }
+                if (dayCount > 5)
+                {
+                    weekCount += 1;
+                    dayCount = 1;
                 }
 
-                if (daily == 4)
-                {
-                    daily = 0;
-                    themeDay += 1;
-                }
+                fileCount += 1;
+
+                Console.WriteLine("Week " + weekCount + " Dag " + dayCount); // so yea this basically gonna assemnble the final path to save to
             }
-
-
-
             Console.Read();
         }
-
-        public static void ProcessSheet(string key, Dictionary<string, List<string>> contentRaw)
+ 
+        public static void ProcessSheet(string key, Dictionary<string, List<string>> contentRaw, string folderPath)
 
         {
             List<string> content = new List<string>();
@@ -98,7 +109,7 @@ namespace Excel2Json
             CalcWordPos.FindWords(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
             CalcWordPos.FindSolution(contentFormattedStrings).ToList().ForEach(x => contentFormattedInts.Add(x.Key, x.Value));
 
-            Export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key);
+            Export.SaveFinal(contentFormattedStrings, contentFormattedInts, contentColRow, key, folderPath);
 
         }
 
