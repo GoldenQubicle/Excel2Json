@@ -23,8 +23,9 @@ namespace Excel2Json
             Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[2];
             Console.WriteLine("processing sheet: " + ws.Name);
             singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
-            //getGrid(ws);
 
+        
+            //getGrid(ws);
 
             // get all sheets from workbook
             //foreach (Excel.Worksheet ws in wb.Worksheets)
@@ -38,7 +39,6 @@ namespace Excel2Json
 
             excel.Quit();
             Marshal.ReleaseComObject(excel);
-
 
             return singleXLSX;
         }

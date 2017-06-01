@@ -16,10 +16,8 @@ namespace Excel2Json
 
             /*
              
-            TODO
-            
-            think this is handled properly now ! somehow check for ij in words & solution without fucking over letter array ~ in moeilijk + middel
-                                                 
+            TODO 
+                                             
             adjust the javascript in project to accomodate solution split into words (i.e. join together on client and pass into existing linesolution var)
             
             check interpunction solution words, ask Bardo & Paul how this was handled in the javascript
@@ -48,23 +46,37 @@ namespace Excel2Json
             // content = jsonHelper.loadRaw(key);
             // content = Parser.scrubContent(content);
 
-
             // ~~~~ proper routine ~~~~
-            string path = @"C:\Users\Erik\Desktop\MAAND 1, WEEK 2";
+            string path = @"C:\Users\Erik\Desktop\KK cloud content";
             List<string> files = Scraper.getFiles(path);
-            //foreach (string file in files)
-            //{
-            for (int i = 2; i < 3; i++)
+            int daily = 0;
+            int themeDay = 0;
+
+
+            for (int i = 0; i < 1; i++)
             {
-                Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
                 string file = Scraper.getFiles(path)[i];
+         //    foreach (string file in files) // process everything! 
+         //{
+                daily += 1;
+
+                Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
                 Console.WriteLine("opening file " + file);
                 contentRaw = Import.readFile(file, levels);
+
                 foreach (string key in contentRaw.Keys)
                 {
                     ProcessSheet(key, contentRaw);
                 }
+
+                if (daily == 4)
+                {
+                    daily = 0;
+                    themeDay += 1;
+                }
             }
+
+
 
             Console.Read();
         }

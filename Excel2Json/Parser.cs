@@ -13,7 +13,7 @@ namespace Excel2Json
     {
 
         public static string sol = "Oplossing";
-        public static string[] toIgnore = { "Spel", "kleurcode" };
+        public static string[] toIgnore = { "Spel", "kleurcode" }; // so yeah spel is an issue with speld. . =/
 
         public static List<string> scrubContent(List<string> contentRaw)
         {
@@ -25,6 +25,7 @@ namespace Excel2Json
             int cut = 0;
             foreach (string i in contentRaw)
             {
+                //Console.WriteLine(i);
                 if (Regex.IsMatch(i, toIgnore[0], RegexOptions.IgnoreCase))
                 {
                     cut = contentRaw.IndexOf(i);
@@ -55,6 +56,7 @@ namespace Excel2Json
                 if (!ignoreIndex.Contains(scrubbed.IndexOf(keep)))
                 {
                     contentScrubbed.Add(keep);
+                    //Console.WriteLine(keep);
                 }
             }
 
@@ -78,6 +80,8 @@ namespace Excel2Json
             {
                 if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
                 {
+                    //Console.WriteLine(i.ToString());
+
                     foreach (string word in i.Split(separators, StringSplitOptions.RemoveEmptyEntries))
                     {
                         if (word != "solution") // remove the solution clue added at import
@@ -90,7 +94,9 @@ namespace Excel2Json
                     info.Add(contentToBeSplit[uitleg]);
                 }
 
-            }
+            }                      
+           //Console.WriteLine(solution.Count() + " " + info.Count()); // so nothing is added to solution?!
+            
             solution.RemoveAt(0);          
             contentSplit.Add("solution", solution);
             contentSplit.Add("info", info);
