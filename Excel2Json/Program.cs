@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Excel;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace Excel2Json
 {
@@ -48,32 +49,22 @@ namespace Excel2Json
 
             // ~~~~ proper routine ~~~~
             string path = @"C:\Users\Erik\Desktop\KK cloud content";
+            string savePath = @"C:\Users\Erik\Documents\GitHub\Content\wordsearch\";
             List<string> files = Scraper.getFiles(path);
             int fileCount = 1;
             int dayCount = 1;
             int weekCount = 1;
 
 
-            //for (int i = 0; i < 4; i++)
-            //{
-            //    string file = Scraper.getFiles(path)[i];
-            foreach (string file in files) // process everything! 
+            // ok so here's a question, why doesnt moeilijk + middel sheet return a proper index all together?!
+            for (int i = 1; i < 4; i++)
             {
 
-                //Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
-                //Console.WriteLine("opening file " + file);
-                //contentRaw = Import.readFile(file, levels);
-
-                //Console.WriteLine(Scraper.folders[dayCount].ToString());
+           //foreach (string file in files) // process everything! 
+           //{
+                string file = Scraper.getFiles(path)[i];
+                string newFolder = "week_" + weekCount + "_day_" + dayCount;
                 string folderPath = Scraper.folders[dayCount].ToString();
-
-                //foreach (string key in contentRaw.Keys)
-                //{
-                //    ProcessSheet(key, contentRaw, folderPath);
-                //}
-
-
-
                 if (fileCount > 4)
                 {
                     fileCount = 1;
@@ -84,16 +75,21 @@ namespace Excel2Json
                     weekCount += 1;
                     dayCount = 1;
                 }
-
                 fileCount += 1;
 
-                Console.WriteLine("Week " + weekCount + " Dag " + dayCount); // so yea this basically gonna assemnble the final path to save to
+                Console.WriteLine("opening file " + file);
+                Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
+                contentRaw = Import.readFile(file, levels);
+                
+                foreach (string key in contentRaw.Keys)
+                {
+                    ProcessSheet(key, contentRaw, savePath + newFolder);
+                }
             }
             Console.Read();
         }
- 
-        public static void ProcessSheet(string key, Dictionary<string, List<string>> contentRaw, string folderPath)
 
+        public static void ProcessSheet(string key, Dictionary<string, List<string>> contentRaw, string folderPath)
         {
             List<string> content = new List<string>();
             Dictionary<string, List<string>> contentFormattedStrings = new Dictionary<string, List<string>>();

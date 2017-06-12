@@ -29,6 +29,7 @@ namespace Excel2Json
                 if (Regex.IsMatch(i, toIgnore[0], RegexOptions.IgnoreCase))
                 {
                     cut = contentRaw.IndexOf(i);
+                    //Console.WriteLine(cut);
                 }
             }
             for (var i = cut; i < contentRaw.Count; i++)

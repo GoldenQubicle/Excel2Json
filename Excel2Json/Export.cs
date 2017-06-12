@@ -39,6 +39,9 @@ namespace Excel2Json
             else
             {
                 Console.WriteLine("welp, not enough letters. . or row / column count is off. Either way, big fat nope =) ");
+                Console.WriteLine("columns: " + colrow["columns"]);
+                Console.WriteLine("rows: " + colrow["rows"]);
+                Console.WriteLine("letters: " + contentString["letters"].Count());
             }
         }
 
