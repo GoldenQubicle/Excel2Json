@@ -57,11 +57,11 @@ namespace Excel2Json
 
 
             // ok so here's a question, why doesnt moeilijk + middel sheet return a proper index all together?!
-            for (int i = 1; i < 4; i++)
+            for (int i = 3; i < 4; i++)
             {
 
-           //foreach (string file in files) // process everything! 
-           //{
+                //foreach (string file in files) // process everything! 
+                //{
                 string file = Scraper.getFiles(path)[i];
                 string newFolder = "week_" + weekCount + "_day_" + dayCount;
                 string folderPath = Scraper.folders[dayCount].ToString();
@@ -79,8 +79,10 @@ namespace Excel2Json
 
                 Console.WriteLine("opening file " + file);
                 Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
+                //Directory.CreateDirectory(savePath + newFolder);
+
                 contentRaw = Import.readFile(file, levels);
-                
+
                 foreach (string key in contentRaw.Keys)
                 {
                     ProcessSheet(key, contentRaw, savePath + newFolder);

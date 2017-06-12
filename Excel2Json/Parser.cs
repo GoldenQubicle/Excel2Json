@@ -14,6 +14,8 @@ namespace Excel2Json
 
         public static string sol = "Oplossing";
         public static string[] toIgnore = { "Spel", "kleurcode" }; // so yeah spel is an issue with speld. . =/
+    // soooooooooooooooooooooooooo I may want to extract the wordsearch on cell border, get the range
+    //  then check to see if said range has any backrgound color set, if yes, than WE HAVE A WINNER!!
 
         public static List<string> scrubContent(List<string> contentRaw)
         {

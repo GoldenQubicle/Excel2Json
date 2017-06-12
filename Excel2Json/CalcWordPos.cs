@@ -36,7 +36,7 @@ namespace Excel2Json
                     {
                         startCol.Add(index % cols);
                         startRow.Add(index / rows);
-                        endCol.Add((index % cols) + word.Count());
+                        endCol.Add((index % cols) + (word.Count()-1));
                         endRow.Add(index / rows);
                         //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + (index / rows));
                         break;
@@ -47,7 +47,7 @@ namespace Excel2Json
                         startCol.Add(index % cols);
                         startRow.Add(index / rows);
                         endCol.Add(index % cols);
-                        endRow.Add((index / rows) + word.Count());
+                        endRow.Add((index / rows) + (word.Count() - 1));
                         //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + (index % cols) + " " + ((index / rows) + word.Count()));
                         break;
                     }
@@ -56,8 +56,8 @@ namespace Excel2Json
                     {
                         startCol.Add(index % cols);
                         startRow.Add(index / rows);
-                        endCol.Add((index % cols) + word.Count());
-                        endRow.Add((index / rows) + word.Count());
+                        endCol.Add((index % cols) + (word.Count() - 1));
+                        endRow.Add((index / rows) + (word.Count() - 1));
                         //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + ((index / rows) + word.Count()));
                         break;
                     }
