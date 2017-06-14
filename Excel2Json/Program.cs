@@ -12,16 +12,16 @@ namespace Excel2Json
     class Program
     {    /* TODO 
               - adjust import such that it uses border & background color cells check,
-              - this will circumvent not returning index, and also issue with regex matching spel / speld
-              - solution is still tacked on to last word of said solution
-              - special characters appear to get mangled . . 
+                        k border check is implemented
+                         question is, how to check the continuity of both ranges? 
+                         or. . . just grab both, perform letter by letter check
+
+              - solution is still tacked on to last word of said solution => not in every case?!
+              - special characters appear to get mangled . . => yeah thats an issue
               - check for extra spaces et al in file & sheet name        
             
+                    */
 
-            BUGS JS CLIENT SIDE
-            - vertical & diagnal word selection not working at all
-            - horizontal word selection borked for lower half canvas
-            - greying out selected words in list one off  */
 
         static void Main(string[] args)
         {
@@ -50,7 +50,7 @@ namespace Excel2Json
             int fileCount = 1;
             int dayCount = 1;
             int weekCount = 1;
-            
+
             for (int i = 2; i < 3; i++)
             {
                 //foreach (string file in files) // process everything! 

@@ -35,6 +35,10 @@ namespace Excel2Json
             //    singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
             //}
 
+            // is this gonna be of any help
+            //ws.Columns.ClearFormats(); 
+            //ws.Rows.ClearFormats();
+
             wb.Close();
             Marshal.ReleaseComObject(wb);
 
@@ -48,12 +52,6 @@ namespace Excel2Json
         {
             Excel.Range range = ws.UsedRange;
 
-
-            //if(border.LineStyle != Excel.XlLineStyle.xlLineStyleNone.GetHashCode())
-            //{
-            //    Console.WriteLine("check border");
-            //}
-
             int rw = range.Rows.Count;
             int cl = range.Columns.Count;
 
@@ -65,16 +63,24 @@ namespace Excel2Json
 
                     Excel.Borders border = checkBorder.Borders;
 
-                    if (border.LineStyle != Excel.XlLineStyle.xlLineStyleNone.GetHashCode())
+                    if (border.LineStyle != Excel.XlLineStyle.xlLineStyleNone.GetHashCode() && rCnt > 20)
                     {
+                        // check whether cell has border
+                        // of course what happens here, it finds both grids. So, need to specify which to take
+                        // could do this rather harsly by simply hardcoding like if rCnt  row + 2
+                        // ok so from here on out, need to get the rowNumber of first cell w border,
+                        // and than 
+                        //ws.Columns.ClearFormats();
+                        Console.WriteLine(ws.UsedRange.Columns.Count);
                         Console.WriteLine("check border" + " " + rCnt + " " + cCnt );
+                        break;
+
                     }
                 }
             }
         }
 
-
-
+        
         public static List<string> SingleSheet(Excel.Worksheet ws)
         {
             List<string> contentRaw = new List<string>();
