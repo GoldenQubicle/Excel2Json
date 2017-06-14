@@ -15,14 +15,6 @@ namespace Excel2Json
 
         public static List<string> getFiles(string path)
         {
-            /*
-             needs to do recursive folder search look for 'WOORDZOEKER' folder
-
-            issue is: the final json file has themeDay, level & sublevel 
-            and themeDay is NOT apperent from the xlsx filename, rather needs to be retrieved from folder name
-            what's more: the current folder structure is per week  , i.e. week2, dag1 needs to be translated into themeDay
-            */
-
             foreach (string folder in Directory.GetDirectories(path))
             {
                 if (folder.Contains("WOORDZOEKER"))

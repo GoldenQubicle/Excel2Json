@@ -10,25 +10,21 @@ using System.IO;
 namespace Excel2Json
 {
     class Program
-    {
+    {    /* TODO 
+              - adjust import such that it uses border & background color cells check,
+              - this will circumvent not returning index, and also issue with regex matching spel / speld
+              - solution is still tacked on to last word of said solution
+              - special characters appear to get mangled . . 
+              - check for extra spaces et al in file & sheet name        
+            
+
+            BUGS JS CLIENT SIDE
+            - vertical & diagnal word selection not working at all
+            - horizontal word selection borked for lower half canvas
+            - greying out selected words in list one off  */
 
         static void Main(string[] args)
         {
-
-            /*
-             
-            TODO 
-                                             
-            adjust the javascript in project to accomodate solution split into words (i.e. join together on client and pass into existing linesolution var)
-            
-            check interpunction solution words, ask Bardo & Paul how this was handled in the javascript
-            
-            determine themeDay on folder / path               
-
-            for extra bonus fun points: select search direction on level, i.e. currently searches vert & dia when its not necessarry
-            
-            */
-
             JSONHelper jsonHelper = new JSONHelper();
             Dictionary<string, string> levels = Levels();
 
@@ -54,12 +50,9 @@ namespace Excel2Json
             int fileCount = 1;
             int dayCount = 1;
             int weekCount = 1;
-
-
-            // ok so here's a question, why doesnt moeilijk + middel sheet return a proper index all together?!
-            for (int i = 3; i < 4; i++)
+            
+            for (int i = 2; i < 3; i++)
             {
-
                 //foreach (string file in files) // process everything! 
                 //{
                 string file = Scraper.getFiles(path)[i];

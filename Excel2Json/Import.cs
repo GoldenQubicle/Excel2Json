@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 
 namespace Excel2Json
 {
-   public static class Import
+    public static class Import
     {
 
         public static Dictionary<string, List<string>> readFile(string filename, Dictionary<string, string> lvl)
@@ -20,19 +20,20 @@ namespace Excel2Json
             Excel.Workbook wb = excel.Workbooks.Open(filename);
 
             // single sheet debug dev
-            //Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
-            //Console.WriteLine("processing sheet: " + ws.Name);
+            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[2];
+            Console.WriteLine("processing sheet: " + ws.Name);
             //singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+            checkBorders(ws);
 
 
             //getGrid(ws);
 
             // get all sheets from workbook
-            foreach (Excel.Worksheet ws in wb.Worksheets)
-            {
-                Console.WriteLine("processing sheet: " + ws.Name);
-                singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
-            }
+            //foreach (Excel.Worksheet ws in wb.Worksheets)
+            //{
+            //    Console.WriteLine("processing sheet: " + ws.Name);
+            //    singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
+            //}
 
             wb.Close();
             Marshal.ReleaseComObject(wb);
@@ -42,6 +43,37 @@ namespace Excel2Json
 
             return singleXLSX;
         }
+
+        public static void checkBorders(Excel.Worksheet ws)
+        {
+            Excel.Range range = ws.UsedRange;
+
+
+            //if(border.LineStyle != Excel.XlLineStyle.xlLineStyleNone.GetHashCode())
+            //{
+            //    Console.WriteLine("check border");
+            //}
+
+            int rw = range.Rows.Count;
+            int cl = range.Columns.Count;
+
+            for (int rCnt = 1; rCnt <= rw; rCnt++)
+            {
+                for (int cCnt = 1; cCnt <= cl; cCnt++)
+                {
+                    Excel.Range checkBorder = range.Cells[rCnt, cCnt] as Excel.Range;
+
+                    Excel.Borders border = checkBorder.Borders;
+
+                    if (border.LineStyle != Excel.XlLineStyle.xlLineStyleNone.GetHashCode())
+                    {
+                        Console.WriteLine("check border" + " " + rCnt + " " + cCnt );
+                    }
+                }
+            }
+        }
+
+
 
         public static List<string> SingleSheet(Excel.Worksheet ws)
         {
@@ -64,7 +96,7 @@ namespace Excel2Json
                     {
                         if (str.Contains("ij"))
                         {
-                           str =  str.Replace("ij", "y");
+                            str = str.Replace("ij", "y");
                         }
 
                         if ((range.Cells[rCnt, cCnt] as Excel.Range).Interior.Color == 13421823)
@@ -85,7 +117,7 @@ namespace Excel2Json
             Console.WriteLine("processing done");
             return contentRaw;
         }
-        
+
         public static void getGrid(Excel.Worksheet ws)
         {
             Excel.Range range = ws.UsedRange;
