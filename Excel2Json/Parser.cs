@@ -20,17 +20,10 @@ namespace Excel2Json
             List<int> ignoreIndex = new List<int>();
             List<string> scrubbed = new List<string>();
 
-            // eliminate duplicates
-            //int cut = Import.index;
+            // yeah this is bit useless now because of alternative split 'n scrub
+            scrubbed = contentRaw;
 
-            for (var i = 0; i < contentRaw.Count; i++)
-            {
-                scrubbed.Add(contentRaw[i]);
-            }
-
-            // get index ignore items
-            //foreach (string i in toIgnore)
-            //{
+            // get index ignore items     
             foreach (string j in scrubbed)
                 {
                     if (Regex.IsMatch(j, "kleurcode", RegexOptions.IgnoreCase))
@@ -40,24 +33,18 @@ namespace Excel2Json
                     }
 
                 }
-            //}
-
-            // filter remainder on ignoreIndex
+            
+            // filter  on ignoreIndex
             foreach (string keep in scrubbed)
             {
                 if (!ignoreIndex.Contains(scrubbed.IndexOf(keep)))
                 {
                     contentScrubbed.Add(keep);
-                    Console.WriteLine(keep);
+                    //Console.WriteLine(keep);
                 }
             }
-
             Console.WriteLine("scrubbed data");
             return contentScrubbed;
-
-            //// save scrubbed content, temporary
-            //string scrubbedContent = JsonConvert.SerializeObject(content);
-            //File.WriteAllText("scrubbedContent.json", scrubbedContent);
         }
 
         public static Dictionary<string, List<string>> getSolutionInfo(List<string> contentToBeSplit)
@@ -76,6 +63,10 @@ namespace Excel2Json
 
                     foreach (string word in i.Split(separators, StringSplitOptions.RemoveEmptyEntries))
                     {
+                        // so yeaaahhh this check below is pretty useless atm because solution is tacked on
+                        // i.e. there is no seperator between 'solution' from the last word of sentence
+                        // consequently nothing gets split and thus is doesnt actually remove it
+
                         if (word != "solution") // remove the solution clue added at import
                         {
                             solution.Add(word);
@@ -89,14 +80,13 @@ namespace Excel2Json
             }
             //Console.WriteLine(solution.Count() + " " + info.Count()); // so nothing is added to solution?!
 
-            //solution.RemoveAt(0);
+            solution.RemoveAt(0);
             contentSplit.Add("solution", solution);
             contentSplit.Add("info", info);
 
             return contentSplit;
         }
         
-        // wth.. . somehow line solution suddenly gets passed in here
         public static Dictionary<string, List<string>> getWordsLetters(List<string> contentToBeSplit)
         {
             Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();

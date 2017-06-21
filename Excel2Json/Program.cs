@@ -22,26 +22,10 @@ namespace Excel2Json
             
                     */
 
-
         static void Main(string[] args)
         {
             JSONHelper jsonHelper = new JSONHelper();
             Dictionary<string, string> levels = Levels();
-
-            // ~~~~ debug dev stuff ~~~~
-            //String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ moeilijk LANDBOUW.xlsx";
-            //Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
-            //contentRaw = Import.readFile(filename, levels); 
-            //string key = "22"; // note key needs to correspond to sheet # during import
-            //ProcessSheet(key, contentRaw);
-
-            //// temp routine to save single excel sheet raw data as json
-            // Export.SaveRaw(contentRaw[key], key);
-
-            //// temp: read said json as list and pars it, also temp key
-            // List<string> content = new List<string>();
-            // content = jsonHelper.loadRaw(key);
-            // content = Parser.scrubContent(content);
 
             // ~~~~ proper routine ~~~~
             string path = @"C:\Users\Erik\Desktop\KK cloud content";
@@ -122,6 +106,23 @@ namespace Excel2Json
             }
             return levelSublevel;
         }
+
+
+        // ~~~~ debug dev stuff ~~~~
+        //String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ moeilijk LANDBOUW.xlsx";
+        //Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
+        //contentRaw = Import.readFile(filename, levels); 
+        //string key = "22"; // note key needs to correspond to sheet # during import
+        //ProcessSheet(key, contentRaw);
+
+        //// temp routine to save single excel sheet raw data as json
+        // Export.SaveRaw(contentRaw[key], key);
+
+        //// temp: read said json as list and pars it, also temp key
+        // List<string> content = new List<string>();
+        // content = jsonHelper.loadRaw(key);
+        // content = Parser.scrubContent(content);
+
     }
 }
 
