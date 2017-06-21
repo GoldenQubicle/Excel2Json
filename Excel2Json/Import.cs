@@ -12,6 +12,7 @@ namespace Excel2Json
 {
     public static class Import
     {
+        public static int index;
 
         public static Dictionary<string, List<string>> readFile(string filename, Dictionary<string, string> lvl)
         {
@@ -20,11 +21,11 @@ namespace Excel2Json
             Excel.Workbook wb = excel.Workbooks.Open(filename);
 
             // single sheet debug dev
-            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[2];
+            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
             Console.WriteLine("processing sheet: " + ws.Name);
-            //singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws));
             checkBorders(ws);
 
+            singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws, index));
 
             //getGrid(ws);
 
@@ -71,17 +72,19 @@ namespace Excel2Json
                         // ok so from here on out, need to get the rowNumber of first cell w border,
                         // and than 
                         //ws.Columns.ClearFormats();
+                       
                         Console.WriteLine(ws.UsedRange.Columns.Count);
                         Console.WriteLine("check border" + " " + rCnt + " " + cCnt );
-                        break;
-
+                        index = rCnt;
+                        Console.WriteLine("index = " + index);                 
+                        return;
                     }
                 }
             }
         }
 
-        
-        public static List<string> SingleSheet(Excel.Worksheet ws)
+
+        public static List<string> SingleSheet(Excel.Worksheet ws, int rowIndex)
         {
             List<string> contentRaw = new List<string>();
             List<int> indexColor = new List<int>();
@@ -93,7 +96,7 @@ namespace Excel2Json
             rw = range.Rows.Count;
             cl = range.Columns.Count;
 
-            for (int rCnt = 1; rCnt <= rw; rCnt++)
+            for (int rCnt = rowIndex; rCnt <= rw; rCnt++)
             {
                 for (int cCnt = 1; cCnt <= cl; cCnt++)
                 {

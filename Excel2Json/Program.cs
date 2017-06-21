@@ -51,7 +51,7 @@ namespace Excel2Json
             int dayCount = 1;
             int weekCount = 1;
 
-            for (int i = 2; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
                 //foreach (string file in files) // process everything! 
                 //{
@@ -70,12 +70,12 @@ namespace Excel2Json
                 }
                 fileCount += 1;
 
-                Console.WriteLine("opening file " + file);
                 Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
+
                 //Directory.CreateDirectory(savePath + newFolder);
 
+                Console.WriteLine("opening file " + file);
                 contentRaw = Import.readFile(file, levels);
-
                 foreach (string key in contentRaw.Keys)
                 {
                     ProcessSheet(key, contentRaw, savePath + newFolder);

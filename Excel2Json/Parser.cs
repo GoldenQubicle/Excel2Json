@@ -12,7 +12,7 @@ namespace Excel2Json
     public static class Parser
     {
         public static string sol = "Oplossing";
-        public static string[] toIgnore = { "Spel", "kleurcode" }; 
+        public static string[] toIgnore = { "kleurcode" }; 
 
         public static List<string> scrubContent(List<string> contentRaw)
         {
@@ -21,34 +21,26 @@ namespace Excel2Json
             List<string> scrubbed = new List<string>();
 
             // eliminate duplicates
-            int cut = 0;
-            foreach (string i in contentRaw)
-            {
-                //Console.WriteLine(i);
-                if (Regex.IsMatch(i, toIgnore[0], RegexOptions.IgnoreCase))
-                {
-                    cut = contentRaw.IndexOf(i);
-                    //Console.WriteLine(cut);
-                }
-            }
-            for (var i = cut; i < contentRaw.Count; i++)
+            //int cut = Import.index;
+
+            for (var i = 0; i < contentRaw.Count; i++)
             {
                 scrubbed.Add(contentRaw[i]);
             }
 
             // get index ignore items
-            foreach (string i in toIgnore)
-            {
-                foreach (string j in scrubbed)
+            //foreach (string i in toIgnore)
+            //{
+            foreach (string j in scrubbed)
                 {
-                    if (Regex.IsMatch(j, i, RegexOptions.IgnoreCase))
+                    if (Regex.IsMatch(j, "kleurcode", RegexOptions.IgnoreCase))
                     {
                         int pos = scrubbed.IndexOf(j);
                         ignoreIndex.Add(pos);
                     }
 
                 }
-            }
+            //}
 
             // filter remainder on ignoreIndex
             foreach (string keep in scrubbed)
@@ -56,7 +48,7 @@ namespace Excel2Json
                 if (!ignoreIndex.Contains(scrubbed.IndexOf(keep)))
                 {
                     contentScrubbed.Add(keep);
-                    //Console.WriteLine(keep);
+                    Console.WriteLine(keep);
                 }
             }
 
@@ -94,22 +86,23 @@ namespace Excel2Json
                     info.Add(contentToBeSplit[uitleg]);
                 }
 
-            }                      
-           //Console.WriteLine(solution.Count() + " " + info.Count()); // so nothing is added to solution?!
-            
-            solution.RemoveAt(0);          
+            }
+            //Console.WriteLine(solution.Count() + " " + info.Count()); // so nothing is added to solution?!
+
+            //solution.RemoveAt(0);
             contentSplit.Add("solution", solution);
             contentSplit.Add("info", info);
 
             return contentSplit;
         }
-
+        
+        // wth.. . somehow line solution suddenly gets passed in here
         public static Dictionary<string, List<string>> getWordsLetters(List<string> contentToBeSplit)
         {
             Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
             List<string> letters = new List<string>();
             List<string> words = new List<string>();
-
+            Console.WriteLine("getWordsLetters");
             foreach (string i in contentToBeSplit)
             {
                 int count = 0;

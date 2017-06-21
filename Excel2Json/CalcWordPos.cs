@@ -35,7 +35,7 @@ namespace Excel2Json
                     {
                         startCol.Add(index % cols);
                         startRow.Add(index / rows);
-                        endCol.Add(((index % cols) + (word.Count())-1));
+                        endCol.Add(((index % cols) + (word.Count()) - 1));
                         endRow.Add(index / rows);
                         //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + (index / rows));
                         break;
@@ -91,7 +91,7 @@ namespace Excel2Json
                 string firstLetter = word[0].ToString().ToLower();
                 firstLetter += "solution";
                 int wordLength = word.Count();
-            
+
                 while ((index = letters.IndexOf(firstLetter, index)) != -1)
                 {
                     if (((index % cols) + wordLength) <= cols)
@@ -132,7 +132,7 @@ namespace Excel2Json
                     //}
                     //else
                     //{
-                        letters[i] = letters[i].Remove(1, 8);
+                    letters[i] = letters[i].Remove(1, 8);
                     //}
                 }
             }
@@ -169,6 +169,11 @@ namespace Excel2Json
 
         public static bool VerticalSearch(int index, string word, List<string> letters)
         {
+            // bit hacky here to circumvent rouning down integer division
+            float test = (float)index / (float)rows;
+            double round = Math.Round(test, MidpointRounding.ToEven);
+            index = (int)round;
+
             if (((index / rows) + word.Count()) < rows)
             {
                 string letterWord = "";
