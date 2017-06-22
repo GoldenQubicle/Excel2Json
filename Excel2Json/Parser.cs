@@ -11,7 +11,7 @@ namespace Excel2Json
 {
     public static class Parser
     {
-        public static string sol = "Oplossing";
+        public static string sol = "Oplossing:";
         public static string[] toIgnore = { "kleurcode" }; 
 
         public static List<string> scrubContent(List<string> contentRaw)
@@ -54,31 +54,33 @@ namespace Excel2Json
             List<string> info = new List<string>();
 
             string[] separators = new string[] { " ", ":", ".", "," };
+            string getSol;
 
-            foreach (string i in contentToBeSplit)
+            for(int i = contentToBeSplit.Count; i > 0; i--)
             {
-                if (Regex.IsMatch(i, sol, RegexOptions.IgnoreCase))
+                 getSol = contentToBeSplit[i-1];            
+
+                if (Regex.IsMatch(getSol, sol, RegexOptions.IgnoreCase))
                 {
-                    //Console.WriteLine(i.ToString());
 
-                    foreach (string word in i.Split(separators, StringSplitOptions.RemoveEmptyEntries))
+                    foreach (string word in getSol.Split(separators, StringSplitOptions.RemoveEmptyEntries))
                     {
-                        // so yeaaahhh this check below is pretty useless atm because solution is tacked on
-                        // i.e. there is no seperator between 'solution' from the last word of sentence
-                        // consequently nothing gets split and thus is doesnt actually remove it
 
-                        if (word != "solution") // remove the solution clue added at import
+                        if (word.Contains("solution")) // remove the solution clue added at import
+                        {
+                          string lastWord =   word.Remove(word.Length - 8);
+                          solution.Add(lastWord);
+                        }
+                        else
                         {
                             solution.Add(word);
-                            //Console.WriteLine(word);
                         }
                     }
-                    int uitleg = contentToBeSplit.IndexOf(i) + 1;
+                    int uitleg = contentToBeSplit.IndexOf(getSol) + 1;
                     info.Add(contentToBeSplit[uitleg]);
                 }
 
             }
-            //Console.WriteLine(solution.Count() + " " + info.Count()); // so nothing is added to solution?!
 
             solution.RemoveAt(0);
             contentSplit.Add("solution", solution);
@@ -108,6 +110,7 @@ namespace Excel2Json
                     }
                 }
                 if (count == 1 || count == 2 || i.Contains("solution"))
+                    // aaarggghhh wordlijst can contain 'ei' as word. . . 
                 {
                     letters.Add(i);
                     //Console.WriteLine(i);

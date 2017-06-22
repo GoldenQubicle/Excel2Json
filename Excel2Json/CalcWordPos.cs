@@ -88,35 +88,38 @@ namespace Excel2Json
             foreach (string word in solution)
             {
                 int index = 0;
-                string firstLetter = word[0].ToString().ToLower();
-                firstLetter += "solution";
-                int wordLength = word.Count();
-
-                while ((index = letters.IndexOf(firstLetter, index)) != -1)
+                if (word != "")
                 {
-                    if (((index % cols) + wordLength) <= cols)
+                    string firstLetter = word[0].ToString().ToLower();
+                    firstLetter += "solution";
+                    int wordLength = word.Count();
+
+                    while ((index = letters.IndexOf(firstLetter, index)) != -1)
                     {
-                        string letterWord = "";
-
-                        for (int i = index; i < (index + wordLength); i++)
+                        if (((index % cols) + wordLength) <= cols)
                         {
-                            if (letters[i].Contains("solution")) // extra check for solution clue
-                            {
-                                letterWord += letters[i].Remove(letters[i].Length - 8);
+                            string letterWord = "";
 
-                                if (letterWord == word.ToLower())
+                            for (int i = index; i < (index + wordLength); i++)
+                            {
+                                if (letters[i].Contains("solution")) // extra check for solution clue
                                 {
-                                    solColStart.Add(index % cols);
-                                    solRowStart.Add(index / rows);
-                                    solColEnd.Add((index % cols) + wordLength);
-                                    solRowEnd.Add(index / rows);
-                                    break;
+                                    letterWord += letters[i].Remove(letters[i].Length - 8);
+
+                                    if (letterWord == word.ToLower())
+                                    {
+                                        solColStart.Add(index % cols);
+                                        solRowStart.Add(index / rows);
+                                        solColEnd.Add((index % cols) + wordLength);
+                                        solRowEnd.Add(index / rows);
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    index++;
+                        index++;
+                    }
                 }
             }
 
@@ -194,7 +197,7 @@ namespace Excel2Json
 
         public static bool HorizontalSearch(int index, string word, List<string> letters)
         {
-            if (((index % cols) + word.Count()) <= cols)
+            if (((index % cols) + word.Count()) <= cols && index + word.Count() < letters.Count())
             {
                 string letterWord = "";
 

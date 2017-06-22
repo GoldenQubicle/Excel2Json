@@ -13,25 +13,26 @@ namespace Excel2Json
 
         public static void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow, string key, string folderPath)
         {
+
+            Dictionary<string, object> contentFinal = new Dictionary<string, object>();
+            contentFinal.Add("columns", colrow["columns"]);
+            contentFinal.Add("rows", colrow["rows"]);
+            contentFinal.Add("words", contentString["words"].ToList());
+            contentFinal.Add("letters", contentString["letters"].ToList());
+            contentFinal.Add("solution", contentString["solution"].ToList());
+            contentFinal.Add("info", contentString["info"].ToList());
+            contentFinal.Add("startCol", contentInt["startCol"].ToList());
+            contentFinal.Add("startRow", contentInt["startRow"].ToList());
+            contentFinal.Add("endCol", contentInt["endCol"].ToList());
+            contentFinal.Add("endRow", contentInt["endRow"].ToList());
+            contentFinal.Add("solColStart", contentInt["solColStart"].ToList());
+            contentFinal.Add("solRowStart", contentInt["solRowStart"].ToList());
+            contentFinal.Add("solColEnd", contentInt["solColEnd"].ToList());
+            contentFinal.Add("solRowEnd", contentInt["solRowEnd"].ToList());
+
             // check to make sure number of letters equals numbers of cells
             if (colrow["rows"] * colrow["columns"] == contentString["letters"].Count())
             {
-                Dictionary<string, object> contentFinal = new Dictionary<string, object>();
-                contentFinal.Add("columns", colrow["columns"]);
-                contentFinal.Add("rows", colrow["rows"]);
-                contentFinal.Add("words", contentString["words"].ToList());
-                contentFinal.Add("letters", contentString["letters"].ToList());
-                contentFinal.Add("solution", contentString["solution"].ToList());
-                contentFinal.Add("info", contentString["info"].ToList());
-                contentFinal.Add("startCol", contentInt["startCol"].ToList());
-                contentFinal.Add("startRow", contentInt["startRow"].ToList());
-                contentFinal.Add("endCol", contentInt["endCol"].ToList());
-                contentFinal.Add("endRow", contentInt["endRow"].ToList());
-                contentFinal.Add("solColStart", contentInt["solColStart"].ToList());
-                contentFinal.Add("solRowStart", contentInt["solRowStart"].ToList());
-                contentFinal.Add("solColEnd", contentInt["solColEnd"].ToList());
-                contentFinal.Add("solRowEnd", contentInt["solRowEnd"].ToList());
-
                 string dataFinal = JsonConvert.SerializeObject(contentFinal);
                 File.WriteAllText(folderPath + "\\ws-" + key + ".json", dataFinal);
                 Console.WriteLine("saved file : " + folderPath + "\\" + key + ".json");
@@ -42,6 +43,10 @@ namespace Excel2Json
                 Console.WriteLine("columns: " + colrow["columns"]);
                 Console.WriteLine("rows: " + colrow["rows"]);
                 Console.WriteLine("letters: " + contentString["letters"].Count());
+
+                string dataFinal = JsonConvert.SerializeObject(contentFinal);
+                File.WriteAllText(folderPath + "\\ws-redo" + key + ".json", dataFinal);
+                Console.WriteLine("saved file : " + folderPath + "\\" + key + ".json");
             }
         }
 

@@ -11,12 +11,6 @@ namespace Excel2Json
 {
     class Program
     {    /* TODO 
-              - adjust import such that it uses border & background color cells check,
-                        k border check is implemented
-                         question is, how to check the continuity of both ranges? 
-                         or. . . just grab both, perform letter by letter check
-
-              - solution is still tacked on to last word of said solution => not in every case?!
               - special characters appear to get mangled . . => yeah thats an issue
               - check for extra spaces et al in file & sheet name        
             
@@ -33,15 +27,14 @@ namespace Excel2Json
             List<string> files = Scraper.getFiles(path);
             int fileCount = 1;
             int dayCount = 1;
-            int weekCount = 1;
+            int weekCount = 2;
 
-            for (int i = 0; i < 1; i++)
+            for (int i = 21; i < 40; i++)
             {
                 //foreach (string file in files) // process everything! 
                 //{
                 string file = Scraper.getFiles(path)[i];
-                string newFolder = "week_" + weekCount + "_day_" + dayCount;
-                string folderPath = Scraper.folders[dayCount].ToString();
+
                 if (fileCount > 4)
                 {
                     fileCount = 1;
@@ -54,6 +47,8 @@ namespace Excel2Json
                 }
                 fileCount += 1;
 
+                string newFolder = "week_" + weekCount + "_day_" + dayCount;
+                string folderPath = Scraper.folders[dayCount].ToString();
                 Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
 
                 //Directory.CreateDirectory(savePath + newFolder);
