@@ -37,6 +37,10 @@ namespace Excel2Json
                 File.WriteAllText(folderPath + "\\ws-" + key + ".json", dataFinal);
                 Console.WriteLine("saved file : " + folderPath + "\\" + key + ".json");
             }
+            if(contentInt["startCol"].Count() != contentString["words"].Count())
+            {
+                Console.WriteLine("yeap. .  there's an issue alrighty");
+            }
             else
             {
                 Console.WriteLine("welp, not enough letters. . or row / column count is off. Either way, big fat nope =) ");

@@ -23,14 +23,14 @@ namespace Excel2Json
 
             // ~~~~ proper routine ~~~~
             string path = @"C:\Users\Erik\Desktop\KK cloud content";
-            string savePath = @"C:\Users\Erik\Documents\GitHub\Content\wordsearch\";
-            //string savePath = @"C:\Users\Erik\Documents\GitHub\Content\test\";
+            //string savePath = @"C:\Users\Erik\Documents\GitHub\Content\wordsearch\";
+            string savePath = @"C:\Users\Erik\Documents\GitHub\Content\test\";
             List<string> files = Scraper.getFiles(path);
             int fileCount = 1;
             int dayCount = 1;
             int weekCount = 1;
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 14; i < 15;  i++)
             {
                 //    foreach (string file in files) // process everything! 
                 //{
