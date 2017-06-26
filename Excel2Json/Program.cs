@@ -14,7 +14,7 @@ namespace Excel2Json
               - special characters appear to get mangled . . => yeah thats an issue
               - check for extra spaces et al in file & sheet name        
             
-                    */
+          */
 
         static void Main(string[] args)
         {
@@ -24,16 +24,17 @@ namespace Excel2Json
             // ~~~~ proper routine ~~~~
             string path = @"C:\Users\Erik\Desktop\KK cloud content";
             string savePath = @"C:\Users\Erik\Documents\GitHub\Content\wordsearch\";
+            //string savePath = @"C:\Users\Erik\Documents\GitHub\Content\test\";
             List<string> files = Scraper.getFiles(path);
             int fileCount = 1;
             int dayCount = 1;
-            int weekCount = 2;
+            int weekCount = 1;
 
-            for (int i = 21; i < 40; i++)
+            //for (int i = 13; i < 14; i++)
+            //{
+            foreach (string file in files) // process everything! 
             {
-                //foreach (string file in files) // process everything! 
-                //{
-                string file = Scraper.getFiles(path)[i];
+                //string file = Scraper.getFiles(path)[i];
 
                 if (fileCount > 4)
                 {

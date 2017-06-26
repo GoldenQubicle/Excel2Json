@@ -12,7 +12,7 @@ namespace Excel2Json
     public static class Parser
     {
         public static string sol = "Oplossing:";
-        public static string[] toIgnore = { "kleurcode" }; 
+        public static string[] toIgnore = { "kleurcode" };
 
         public static List<string> scrubContent(List<string> contentRaw)
         {
@@ -25,15 +25,15 @@ namespace Excel2Json
 
             // get index ignore items     
             foreach (string j in scrubbed)
+            {
+                if (Regex.IsMatch(j, "kleurcode", RegexOptions.IgnoreCase))
                 {
-                    if (Regex.IsMatch(j, "kleurcode", RegexOptions.IgnoreCase))
-                    {
-                        int pos = scrubbed.IndexOf(j);
-                        ignoreIndex.Add(pos);
-                    }
-
+                    int pos = scrubbed.IndexOf(j);
+                    ignoreIndex.Add(pos);
                 }
-            
+
+            }
+
             // filter  on ignoreIndex
             foreach (string keep in scrubbed)
             {
@@ -56,9 +56,9 @@ namespace Excel2Json
             string[] separators = new string[] { " ", ":", ".", "," };
             string getSol;
 
-            for(int i = contentToBeSplit.Count; i > 0; i--)
+            for (int i = contentToBeSplit.Count; i > 0; i--)
             {
-                 getSol = contentToBeSplit[i-1];            
+                getSol = contentToBeSplit[i - 1];
 
                 if (Regex.IsMatch(getSol, sol, RegexOptions.IgnoreCase))
                 {
@@ -68,8 +68,8 @@ namespace Excel2Json
 
                         if (word.Contains("solution")) // remove the solution clue added at import
                         {
-                          string lastWord =   word.Remove(word.Length - 8);
-                          solution.Add(lastWord);
+                            string lastWord = word.Remove(word.Length - 8);
+                            solution.Add(lastWord);
                         }
                         else
                         {
@@ -88,7 +88,7 @@ namespace Excel2Json
 
             return contentSplit;
         }
-        
+
         public static Dictionary<string, List<string>> getWordsLetters(List<string> contentToBeSplit)
         {
             Dictionary<string, List<string>> contentSplit = new Dictionary<string, List<string>>();
@@ -110,9 +110,16 @@ namespace Excel2Json
                     }
                 }
                 if (count == 1 || count == 2 || i.Contains("solution"))
-                    // aaarggghhh wordlijst can contain 'ei' as word. . . 
+                // aaarggghhh wordlijst can contain 'ei' as word. . . 
+
                 {
-                    letters.Add(i);
+                    if (i == "ei")
+                    {
+                        words.Add(i);
+                    } else
+                    {
+                        letters.Add(i);
+                    }
                     //Console.WriteLine(i);
                 }
                 else if (!i.Contains(" "))
