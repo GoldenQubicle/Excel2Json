@@ -30,11 +30,11 @@ namespace Excel2Json
             int dayCount = 1;
             int weekCount = 1;
 
-            //for (int i = 13; i < 14; i++)
-            //{
-            foreach (string file in files) // process everything! 
+            for (int i = 0; i < 20; i++)
             {
-                //string file = Scraper.getFiles(path)[i];
+                //    foreach (string file in files) // process everything! 
+                //{
+                string file = Scraper.getFiles(path)[i];
 
                 if (fileCount > 4)
                 {
