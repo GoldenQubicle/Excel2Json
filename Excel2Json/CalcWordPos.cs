@@ -13,7 +13,7 @@ namespace Excel2Json
         public static int rows;
         public static List<string> foundWords;
         public static int wordCount;
-    
+
 
         public static Dictionary<string, List<int>> FindWords(Dictionary<string, List<string>> content)
         {
@@ -91,13 +91,14 @@ namespace Excel2Json
             List<int> solRowStart = new List<int>();
             List<int> solColEnd = new List<int>();
             List<int> solRowEnd = new List<int>();
-
             List<string> solution = content["solution"];
             List<string> letters = content["letters"];
+            int indexNext = 0;
 
             foreach (string word in solution)
             {
-                int index = 0;
+                int index = indexNext;
+
                 if (word != "")
                 {
                     string firstLetter = word[0].ToString().ToLower();
@@ -120,15 +121,17 @@ namespace Excel2Json
                                     {
                                         solColStart.Add(index % cols);
                                         solRowStart.Add(index / cols);
-                                        solColEnd.Add((index % cols) + (wordLength-1));
+                                        solColEnd.Add((index % cols) + (wordLength - 1));
                                         solRowEnd.Add(index / cols);
+                                        indexNext = index+wordLength;
                                         break;
                                     }
                                 }
-                            }
-                        }
 
-                        index++;
+                            }                            
+                        }
+                        break;
+                      //index++;
                     }
                 }
             }
@@ -147,6 +150,7 @@ namespace Excel2Json
                     //{
                     letters[i] = letters[i].Remove(1, 8);
                     //}
+
                 }
             }
 
@@ -166,10 +170,10 @@ namespace Excel2Json
             {
                 string letterWord = "";
 
-                for (int i = index; i < letters.Count(); i += (cols+1))
+                for (int i = index; i < letters.Count(); i += (cols + 1))
                 {
                     letterWord += letters[i];
-                    Console.WriteLine(letterWord);
+                    //Console.WriteLine(letterWord);
 
                     if (letterWord == word.ToLower() && !foundWords.Contains(letterWord))
                     {
@@ -196,7 +200,7 @@ namespace Excel2Json
                 for (int i = index; i < (index + (wordCount * cols)); i += cols)
                 {
                     letterWord += letters[i];
-                    Console.WriteLine(letterWord);
+                    //Console.WriteLine(letterWord);
 
                     if (letterWord == word.ToLower() && !foundWords.Contains(letterWord))
                     {
@@ -218,7 +222,7 @@ namespace Excel2Json
                 for (int i = index; i < (index + wordCount); i++)
                 {
                     letterWord += letters[i];
-                    Console.WriteLine(letterWord);
+                    //Console.WriteLine(letterWord);
 
                     if (letterWord == word.ToLower() && !foundWords.Contains(letterWord))
                     {

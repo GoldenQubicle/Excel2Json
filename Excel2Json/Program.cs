@@ -30,7 +30,7 @@ namespace Excel2Json
             int dayCount = 1;
             int weekCount = 1;
 
-            for (int i = 3; i < 4;  i++)
+            for (int i = 0; i < 4;  i++)
             {
                 //    foreach (string file in files) // process everything! 
                 //{
