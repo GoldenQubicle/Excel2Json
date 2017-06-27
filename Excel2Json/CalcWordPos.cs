@@ -12,7 +12,8 @@ namespace Excel2Json
         public static int cols;
         public static int rows;
         public static List<string> foundWords;
-
+        public static int wordCount;
+    
 
         public static Dictionary<string, List<int>> FindWords(Dictionary<string, List<string>> content)
         {
@@ -27,8 +28,13 @@ namespace Excel2Json
 
             foreach (string word in words)
             {
+                wordCount = word.Count();
 
-            
+                if (word.Contains("ij"))
+                {
+                    wordCount -= 1;
+                }
+
                 int index = 0;
                 string firstLetter = word[0].ToString();
                 while ((index = letters.IndexOf(firstLetter, index)) != -1)
@@ -37,19 +43,20 @@ namespace Excel2Json
                     if (HorizontalSearch(index, word, letters))
                     {
                         startCol.Add(index % cols);
-                        startRow.Add(index / rows);
-                        endCol.Add(((index % cols) + (word.Count()) - 1));
-                        endRow.Add(index / rows);
+                        startRow.Add(index / cols);
+                        endCol.Add(((index % cols) + (wordCount - 1)));
+                        endRow.Add(index / cols);
                         //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + (index / rows));
+                        //Console.WriteLine("index = " + index.ToString() + "cols = " +  cols + "division = "+ index/cols);
                         break;
                     }
 
                     else if (VerticalSearch(index, word, letters))
                     {
                         startCol.Add(index % cols);
-                        startRow.Add(index / rows);
+                        startRow.Add(index / cols);
                         endCol.Add(index % cols);
-                        endRow.Add(((index / rows) + (word.Count()) - 1));
+                        endRow.Add(((index / cols) + (wordCount - 1)));
                         //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + (index % cols) + " " + ((index / rows) + word.Count()));
                         break;
                     }
@@ -57,9 +64,9 @@ namespace Excel2Json
                     else if (DiagonalSearch(index, word, letters))
                     {
                         startCol.Add(index % cols);
-                        startRow.Add(index / rows);
-                        endCol.Add(((index % cols) + (word.Count()) - 1));
-                        endRow.Add(((index / rows) + (word.Count()) - 1));
+                        startRow.Add(index / cols);
+                        endCol.Add(((index % cols) + (wordCount - 1)));
+                        endRow.Add(((index / cols) + (wordCount - 1)));
                         //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + ((index / rows) + word.Count()));
                         break;
                     }
@@ -112,9 +119,9 @@ namespace Excel2Json
                                     if (letterWord == word.ToLower())
                                     {
                                         solColStart.Add(index % cols);
-                                        solRowStart.Add(index / rows);
-                                        solColEnd.Add((index % cols) + wordLength);
-                                        solRowEnd.Add(index / rows);
+                                        solRowStart.Add(index / cols);
+                                        solColEnd.Add((index % cols) + (wordLength-1));
+                                        solRowEnd.Add(index / cols);
                                         break;
                                     }
                                 }
@@ -155,7 +162,7 @@ namespace Excel2Json
         public static bool DiagonalSearch(int index, string word, List<string> letters)
         {
 
-            if (((index % cols) + word.Count()) <= cols && ((index / rows) + word.Count()) <= rows)
+            if (((index % cols) + wordCount) <= cols && ((index / rows) + wordCount) <= rows)
             {
                 string letterWord = "";
 
@@ -182,11 +189,11 @@ namespace Excel2Json
             //double round = Math.Round(test, MidpointRounding.ToEven);
             //index = (int)round;
 
-            if (((index / cols) + word.Count()) <= cols)
+            if (((index / cols) + wordCount) <= cols)
             {
                 string letterWord = "";
 
-                for (int i = index; i < (index + (word.Count() * cols)); i += cols)
+                for (int i = index; i < (index + (wordCount * cols)); i += cols)
                 {
                     letterWord += letters[i];
                     Console.WriteLine(letterWord);
@@ -204,11 +211,11 @@ namespace Excel2Json
 
         public static bool HorizontalSearch(int index, string word, List<string> letters)
         {
-            if (((index % cols) + word.Count()) <= cols && index + word.Count() <= letters.Count())
+            if (((index % cols) + wordCount) <= cols && index + wordCount <= letters.Count())
             {
                 string letterWord = "";
 
-                for (int i = index; i < (index + word.Count()); i++)
+                for (int i = index; i < (index + wordCount); i++)
                 {
                     letterWord += letters[i];
                     Console.WriteLine(letterWord);

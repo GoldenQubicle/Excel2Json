@@ -21,7 +21,7 @@ namespace Excel2Json
             Excel.Workbook wb = excel.Workbooks.Open(filename);
 
             // single sheet debug dev
-            //Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
+            //Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[1];
             //Console.WriteLine("processing sheet: " + ws.Name);
             //checkBorders(ws);
             //singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws, index));
