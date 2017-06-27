@@ -11,21 +11,24 @@ namespace Excel2Json
     {
         public static int cols;
         public static int rows;
+        public static List<string> foundWords;
+
 
         public static Dictionary<string, List<int>> FindWords(Dictionary<string, List<string>> content)
         {
-
+            foundWords = new List<string>();
             Dictionary<string, List<int>> ColRow = new Dictionary<string, List<int>>();
             List<int> startCol = new List<int>();
             List<int> startRow = new List<int>();
             List<int> endCol = new List<int>();
             List<int> endRow = new List<int>();
-
             List<string> words = content["words"];
             List<string> letters = content["letters"];
 
             foreach (string word in words)
             {
+
+            
                 int index = 0;
                 string firstLetter = word[0].ToString();
                 while ((index = letters.IndexOf(firstLetter, index)) != -1)
@@ -151,20 +154,22 @@ namespace Excel2Json
 
         public static bool DiagonalSearch(int index, string word, List<string> letters)
         {
-            if (((index % cols) + word.Count()) < cols && ((index / rows) + word.Count()) < rows)
+
+            if (((index % cols) + word.Count()) <= cols && ((index / rows) + word.Count()) <= rows)
             {
                 string letterWord = "";
 
-                for (int i = index; i < letters.Count(); i += rows + 1)
+                for (int i = index; i < letters.Count(); i += (cols+1))
                 {
                     letterWord += letters[i];
-                }
+                    Console.WriteLine(letterWord);
 
-                if (letterWord == word.ToLower())
-                {
-                    return true;
+                    if (letterWord == word.ToLower() && !foundWords.Contains(letterWord))
+                    {
+                        foundWords.Add(letterWord);
+                        return true;
+                    }
                 }
-
             }
 
             return false;
@@ -173,22 +178,24 @@ namespace Excel2Json
         public static bool VerticalSearch(int index, string word, List<string> letters)
         {
             // bit hacky here to circumvent rouning down integer division
-            float test = (float)index / (float)rows;
-            double round = Math.Round(test, MidpointRounding.ToEven);
-            index = (int)round;
+            //float test = (float)index / (float)rows;
+            //double round = Math.Round(test, MidpointRounding.ToEven);
+            //index = (int)round;
 
-            if (((index / rows) + word.Count()) < rows)
+            if (((index / cols) + word.Count()) <= cols)
             {
                 string letterWord = "";
 
-                for (int i = index; i < (index + (word.Count() * rows)); i += rows)
+                for (int i = index; i < (index + (word.Count() * cols)); i += cols)
                 {
                     letterWord += letters[i];
-                }
+                    Console.WriteLine(letterWord);
 
-                if (letterWord == word.ToLower())
-                {
-                    return true;
+                    if (letterWord == word.ToLower() && !foundWords.Contains(letterWord))
+                    {
+                        foundWords.Add(letterWord);
+                        return true;
+                    }
                 }
             }
 
@@ -197,19 +204,20 @@ namespace Excel2Json
 
         public static bool HorizontalSearch(int index, string word, List<string> letters)
         {
-            if (((index % cols) + word.Count()) <= cols && index + word.Count() < letters.Count())
+            if (((index % cols) + word.Count()) <= cols && index + word.Count() <= letters.Count())
             {
                 string letterWord = "";
 
                 for (int i = index; i < (index + word.Count()); i++)
                 {
                     letterWord += letters[i];
-                    //Console.WriteLine(word + " " + letterWord);
-                }
+                    Console.WriteLine(letterWord);
 
-                if (letterWord == word.ToLower())
-                {
-                    return true;
+                    if (letterWord == word.ToLower() && !foundWords.Contains(letterWord))
+                    {
+                        foundWords.Add(letterWord);
+                        return true;
+                    }
                 }
             }
 

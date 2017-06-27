@@ -31,23 +31,24 @@ namespace Excel2Json
             contentFinal.Add("solRowEnd", contentInt["solRowEnd"].ToList());
 
             // check to make sure number of letters equals numbers of cells
-            if (colrow["rows"] * colrow["columns"] == contentString["letters"].Count())
+            if (colrow["rows"] * colrow["columns"] == contentString["letters"].Count()
+                && contentInt["startCol"].Count() == contentString["words"].Count())
             {
                 string dataFinal = JsonConvert.SerializeObject(contentFinal);
                 File.WriteAllText(folderPath + "\\ws-" + key + ".json", dataFinal);
                 Console.WriteLine("saved file : " + folderPath + "\\" + key + ".json");
             }
-            if(contentInt["startCol"].Count() != contentString["words"].Count())
-            {
-                Console.WriteLine("yeap. .  there's an issue alrighty");
-            }
+            //if(contentInt["startCol"].Count() != contentString["words"].Count())
+            //{
+            //    Console.WriteLine("yeap. .  there's an issue alrighty");
+            //}
             else
             {
                 Console.WriteLine("welp, not enough letters. . or row / column count is off. Either way, big fat nope =) ");
                 Console.WriteLine("columns: " + colrow["columns"]);
                 Console.WriteLine("rows: " + colrow["rows"]);
                 Console.WriteLine("letters: " + contentString["letters"].Count());
-
+                Console.WriteLine("number of words = " + contentString["words"].Count() + " " + "number of start pos " + contentInt["startCol"].Count());
                 string dataFinal = JsonConvert.SerializeObject(contentFinal);
                 File.WriteAllText(folderPath + "\\ws-redo" + key + ".json", dataFinal);
                 Console.WriteLine("saved file : " + folderPath + "\\" + key + ".json");
