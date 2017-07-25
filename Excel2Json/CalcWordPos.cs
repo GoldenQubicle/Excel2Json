@@ -46,8 +46,6 @@ namespace Excel2Json
                         startRow.Add(index / cols);
                         endCol.Add(((index % cols) + (wordCount - 1)));
                         endRow.Add(index / cols);
-                        //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + (index / rows));
-                        //Console.WriteLine("index = " + index.ToString() + "cols = " +  cols + "division = "+ index/cols);
                         break;
                     }
 
@@ -57,7 +55,6 @@ namespace Excel2Json
                         startRow.Add(index / cols);
                         endCol.Add(index % cols);
                         endRow.Add(((index / cols) + (wordCount - 1)));
-                        //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + (index % cols) + " " + ((index / rows) + word.Count()));
                         break;
                     }
 
@@ -67,7 +64,6 @@ namespace Excel2Json
                         startRow.Add(index / cols);
                         endCol.Add(((index % cols) + (wordCount - 1)));
                         endRow.Add(((index / cols) + (wordCount - 1)));
-                        //Console.WriteLine("woord = " + word + " start col & row = " + (index % cols) + " " + (index / rows) + " end col & row " + ((index % cols) + word.Count()) + " " + ((index / rows) + word.Count()));
                         break;
                     }
 
@@ -131,7 +127,6 @@ namespace Excel2Json
                             }                            
                         }
                         break;
-                      //index++;
                     }
                 }
             }
@@ -188,10 +183,6 @@ namespace Excel2Json
 
         public static bool VerticalSearch(int index, string word, List<string> letters)
         {
-            // bit hacky here to circumvent rouning down integer division
-            //float test = (float)index / (float)rows;
-            //double round = Math.Round(test, MidpointRounding.ToEven);
-            //index = (int)round;
 
             if (((index / cols) + wordCount) <= cols)
             {

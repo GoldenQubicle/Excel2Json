@@ -110,8 +110,6 @@ namespace Excel2Json
                     }
                 }
                 if (count == 1 || count == 2 || i.Contains("solution"))
-                // aaarggghhh wordlijst can contain 'ei' as word. . . 
-
                 {
                     if (i == "ei")
                     {

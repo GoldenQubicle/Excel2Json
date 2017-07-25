@@ -13,8 +13,8 @@ namespace Excel2Json
 
         public static void SaveFinal(Dictionary<string, List<string>> contentString, Dictionary<string, List<int>> contentInt, Dictionary<string, int> colrow, string key, string folderPath)
         {
-
             Dictionary<string, object> contentFinal = new Dictionary<string, object>();
+
             contentFinal.Add("columns", colrow["columns"]);
             contentFinal.Add("rows", colrow["rows"]);
             contentFinal.Add("words", contentString["words"].ToList());
@@ -38,11 +38,7 @@ namespace Excel2Json
                 File.WriteAllText(folderPath + "\\ws-" + key + ".json", dataFinal);
                 Console.WriteLine("saved file : " + folderPath + "\\" + key + ".json");
             }
-            //if(contentInt["startCol"].Count() != contentString["words"].Count())
-            //{
-            //    Console.WriteLine("yeap. .  there's an issue alrighty");
-            //}
-            else
+                     else
             {
                 Console.WriteLine("welp, not enough letters. . or row / column count is off. Either way, big fat nope =) ");
                 Console.WriteLine("columns: " + colrow["columns"]);

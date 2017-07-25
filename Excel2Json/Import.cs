@@ -21,18 +21,18 @@ namespace Excel2Json
             Excel.Workbook wb = excel.Workbooks.Open(filename);
 
             // single sheet debug dev
-            //Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
-            //Console.WriteLine("processing sheet: " + ws.Name);
-            //checkBorders(ws);
-            //singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws, index));
+            Excel.Worksheet ws = (Excel.Worksheet)wb.Worksheets[3];
+            Console.WriteLine("processing sheet: " + ws.Name);
+            checkBorders(ws);
+            singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws, index));
 
             // get all sheets from workbook
-            foreach (Excel.Worksheet ws in wb.Worksheets)
-            {
-                Console.WriteLine("processing sheet: " + ws.Name);
-                checkBorders(ws);
-                singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws, index));
-            }
+            //foreach (Excel.Worksheet ws in wb.Worksheets)
+            //{
+            //    Console.WriteLine("processing sheet: " + ws.Name);
+            //    checkBorders(ws);
+            //    singleXLSX.Add(determineLevels(ws.Name, lvl), SingleSheet(ws, index));
+            //}
 
             wb.Close();
             Marshal.ReleaseComObject(wb);
@@ -85,15 +85,9 @@ namespace Excel2Json
                 {
                     str = (string)(range.Cells[rCnt, cCnt] as Excel.Range).Value2;
                     if (str != null)
-                    {
-                        //if (str.Contains("ij"))
-                        //{
-                        //    str = str.Replace("ij", "y");
-                        //}
-
+                    {                       
                         if ((range.Cells[rCnt, cCnt] as Excel.Range).Interior.Color == 13421823)
                         {
-                            // color pink = long 13421823
                             // add solution clue to the letter, based off background color cells
                             str += "solution";
                         }

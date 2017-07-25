@@ -10,12 +10,7 @@ using System.IO;
 namespace Excel2Json
 {
     class Program
-    {    /* TODO 
-              - special characters appear to get mangled . . => yeah thats an issue
-              - check for extra spaces et al in file & sheet name        
-            
-          */
-
+    {    
         static void Main(string[] args)
         {
             JSONHelper jsonHelper = new JSONHelper();
@@ -30,13 +25,13 @@ namespace Excel2Json
             int dayCount = 1;
             int weekCount = 1;
 
-            for (int i = 0; i < 4;  i++)
+            for (int i = 0; i < 1; i++)
             {
-                //    foreach (string file in files) // process everything! 
-                //{
-                string file = Scraper.getFiles(path)[i];
+                //foreach (string file in files) // process everything! 
+                                               //{
+            string file = Scraper.getFiles(path)[i];
 
-                if (fileCount > 4)
+            if (fileCount > 4)
                 {
                     fileCount = 1;
                     dayCount += 1;
@@ -102,23 +97,6 @@ namespace Excel2Json
             }
             return levelSublevel;
         }
-
-
-        // ~~~~ debug dev stuff ~~~~
-        //String filename = "C:\\Users\\Erik\\Desktop\\MAAND 1, WEEK 2\\MAAND 1, WEEK 2, DAG 1\\WOORDZOEKER\\WZ moeilijk LANDBOUW.xlsx";
-        //Dictionary<string, List<string>> contentRaw = new Dictionary<string, List<string>>();
-        //contentRaw = Import.readFile(filename, levels); 
-        //string key = "22"; // note key needs to correspond to sheet # during import
-        //ProcessSheet(key, contentRaw);
-
-        //// temp routine to save single excel sheet raw data as json
-        // Export.SaveRaw(contentRaw[key], key);
-
-        //// temp: read said json as list and pars it, also temp key
-        // List<string> content = new List<string>();
-        // content = jsonHelper.loadRaw(key);
-        // content = Parser.scrubContent(content);
-
     }
 }
 
